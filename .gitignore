@@ -1,9 +1,12 @@
-/node_modules
-/.pnp
-.pnp.js
+/client/node_modules
+/client/build
+
+/*/.pnp
+/*/.pnp.js
 /coverage
 /build
 .DS_Store
+/*/.DS_Store    
 .env.local
 .env.development.local
 .env.test.local
