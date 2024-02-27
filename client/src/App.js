@@ -9,8 +9,8 @@ function App() {
     <div className="App min-h-screen">
       <Nav />
       <div className="header">
-        <h1 className="title">Seatcheck @ UCLA</h1>
-        <h2 className="subtitle">Get notified when a class space opens up</h2>
+        <h1 className="text-4xl">Seatcheck @ UCLA</h1>
+        <h2 className="text-2xl mt-2 italic">Get notified when a class space opens up</h2>
       </div>
       <Routes>        
       <Route path="/guide"  element={<Guide/>} />

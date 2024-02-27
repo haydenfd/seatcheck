@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button} from "@nextui-org/react";
+import {Button, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure} from "@nextui-org/react";
 import StyledInput from '../Components/StyledInput';
 
 export const Form = () => {
@@ -7,13 +7,14 @@ export const Form = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [courseUrl, setCourseUrl] = useState('');
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const handleSubmit = (e) => {
     alert(`Form submitted: ${name}`);
   };
 
   return (
-    <form className="w-1/2 bg-white p-4 rounded-lg border-2 border-black flex flex-col mx-auto gap-4" onSubmit={handleSubmit}>
+    <form className="w-full bg-white p-4 flex flex-col mx-auto gap-8" onSubmit={handleSubmit}>
       <StyledInput label="What do we call you?" placeholder="Enter your name" inputState={name} setInputState={setName} />
       <StyledInput label="Where do we notify you?" placeholder="Enter your email address" inputState={email} setInputState={setEmail} />
       <StyledInput label="Which class do you want to track?" placeholder="Enter course URL" inputState={courseUrl} setInputState={setCourseUrl} />
