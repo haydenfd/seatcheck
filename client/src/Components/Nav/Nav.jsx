@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, NavbarItem, NavbarContent, Link, Button } from '@nextui-org/react'
+import { Navbar, NavbarItem, NavbarContent, Link } from '@nextui-org/react'
 
 
 const Nav = () => {
