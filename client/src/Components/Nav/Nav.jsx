@@ -15,15 +15,15 @@ const Nav = () => {
             Add Course Tracking
           </Button>
         </NavbarItem>                
-        <NavbarItem>
+        {/* <NavbarItem>
         <Button as={Link} className='text-[#FFB81C] text-xl font-semibold bg-transparent'>
             Guide
           </Button>
-        </NavbarItem>
+        </NavbarItem> */}
       </NavbarContent>
-      <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange} className='min-h-[70%] min-w-[40%]' classNames={ {   
+      <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange} className='min-h-[60%] min-w-[40%]' classNames={ {   
         backdrop: "backdrop-opacity-95",
-        closeButton: "text-black text-3xl",
+        closeButton: "mt-1 mr-1 text-black text-3xl",
         base: "border-4 border-[#FFB81C]"
         }}
                motionProps={{

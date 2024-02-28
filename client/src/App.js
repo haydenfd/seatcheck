@@ -6,7 +6,7 @@ import { Route,Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App min-h-screen">
+    <div className="App min-h-screen overflow-auto">
       <Nav />
       <div className="header">
         <h1 className="text-4xl">Seatcheck @ UCLA</h1>

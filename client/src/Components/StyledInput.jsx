@@ -8,7 +8,7 @@ const StyledInput = ({ label, placeholder, inputState, setInputState }) => {
     label={label}
     placeholder={placeholder}
     classNames = {{
-        label: "text-medium",
+        label: "text-medium font-semibold",
         input: [
           "text-medium",
           "placeholder:text-default-700/90"

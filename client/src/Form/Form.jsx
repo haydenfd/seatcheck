@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import StyledInput from '../Components/StyledInput';
 
 export const Form = () => {
@@ -7,7 +7,6 @@ export const Form = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [courseUrl, setCourseUrl] = useState('');
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const handleSubmit = (e) => {
     alert(`Form submitted: ${name}`);
