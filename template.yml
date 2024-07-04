@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  CoursesLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FetchInstructorCoursesGivenInstructorName
+      Handler: courses_lambda/index.handler
+      Runtime: nodejs18.x  
+      CodeUri: courses_lambda/
+      MemorySize: 3000
+      Timeout: 45
+
+  InstructorsLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FetchInstructorNamesForGivenMajorAndTerm
+      Handler: instructors_lambda/index.handler
+      Runtime: nodejs18.x 
+      CodeUri: instructors_lambda/
+      MemorySize: 3000
+      Timeout: 45
+
+  AddCourseTrackingLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: AddCourseTrackingLambdaFunction
+      Handler: app.main
+      Runtime: python3.11
+      CodeUri: add_tracking_lambda/
+      MemorySize: 3000
+      Timeout: 45
+
+  ScrapeCourseInfoLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ScrapeCourseInfoLambdaFunction
+      Handler: app.main
+      Runtime: python3.11
+      CodeUri: scrape_course_info_lambda/
+      MemorySize: 3000
+      Timeout: 45

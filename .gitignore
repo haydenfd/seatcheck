@@ -1,0 +1,4 @@
+/db_config.md
+*/node_modules
+.aws-sam/
+.DS_Store
