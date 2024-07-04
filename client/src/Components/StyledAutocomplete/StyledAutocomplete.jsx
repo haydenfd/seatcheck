@@ -10,17 +10,17 @@ export const StyledAutocomplete = ({data, value, setValue, label, placeholder}) 
       placeholder={placeholder || ""}
       selectedKey={value}
       isRequired
-      size="md"
+      size="sm"
       onSelectionChange={setValue}
       classNames={{
-        base: "w-[400px] bg-white text-black rounded-md",
+        base: "w-[400px] bg-white rounded-md",
         selectorButton: "text-ucla-blue font-bold",
         clearButton: "text-ucla-blue font-semibold",
-        popoverContent: "bg-ucla-blue text-ucla-gold font-bold"
+        popoverContent: "bg-ucla-blue font-bold",
       }}
     >
       {(item) => (
-        <AutocompleteItem key={item.label} className="text-black">
+        <AutocompleteItem key={item.label} className='text-ucla-gold data-[hover]:text-black'>
           {item.label}
         </AutocompleteItem>
       )}
