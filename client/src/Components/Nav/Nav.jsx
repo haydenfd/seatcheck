@@ -1,32 +1,47 @@
-import React from 'react'
-import { Navbar, NavbarItem, NavbarContent, Link } from '@nextui-org/react'
-import {Button, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure} from "@nextui-org/react";
-import { Form } from '../../Form/Form';
+import React from "react";
+import { Navbar, NavbarItem, NavbarContent, Link } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  useDisclosure,
+} from "@nextui-org/react";
+import { Form } from "../../Form/Form";
 
 const Nav = () => {
-
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <Navbar className='bg-[#003b5c] mb-8'>
+    <Navbar className="bg-[#003b5c] mb-8">
       <NavbarContent className="gap-6 w-full" justify="center">
         <NavbarItem>
-          <Button as={Link} className='text-[#FFB81C] text-xl font-semibold bg-transparent' onPress={onOpen}>
+          <Button
+            as={Link}
+            className="text-[#FFB81C] text-xl font-semibold bg-transparent"
+            onPress={onOpen}
+          >
             Add Course Tracking
           </Button>
-        </NavbarItem>                
+        </NavbarItem>
         {/* <NavbarItem>
         <Button as={Link} className='text-[#FFB81C] text-xl font-semibold bg-transparent'>
             Guide
           </Button>
         </NavbarItem> */}
       </NavbarContent>
-      <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange} className='min-h-[60%] min-w-[40%]' classNames={ {   
-        backdrop: "backdrop-opacity-95",
-        closeButton: "mt-1 mr-1 text-black text-3xl",
-        base: "border-4 border-[#FFB81C]"
+      <Modal
+        isOpen={isOpen}
+        backdrop="blur"
+        onOpenChange={onOpenChange}
+        className="min-h-[60%] min-w-[40%]"
+        classNames={{
+          backdrop: "backdrop-opacity-95",
+          closeButton: "mt-1 mr-1 text-black text-3xl",
+          base: "border-4 border-[#FFB81C]",
         }}
-               motionProps={{
+        motionProps={{
           variants: {
             enter: {
               y: 10,
@@ -44,13 +59,15 @@ const Nav = () => {
                 ease: "easeIn",
               },
             },
-          }
-        }} 
-        >
+          },
+        }}
+      >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col mx-auto">Track course status</ModalHeader>
+              <ModalHeader className="flex flex-col mx-auto">
+                Track course status
+              </ModalHeader>
               <ModalBody>
                 <Form />
               </ModalBody>
@@ -59,7 +76,7 @@ const Nav = () => {
         </ModalContent>
       </Modal>
     </Navbar>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

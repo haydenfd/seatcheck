@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter as Router } from 'react-router-dom';
-import {NextUIProvider} from "@nextui-org/react";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { BrowserRouter as Router } from "react-router-dom";
+import { NextUIProvider } from "@nextui-org/react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <NextUIProvider>
+  <NextUIProvider>
     <Router>
-        <App />
+      <App />
     </Router>
-    </NextUIProvider>    
+  </NextUIProvider>,
 );

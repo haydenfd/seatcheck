@@ -6,7 +6,7 @@ body {
 
 .App {
   font-size: calc(10px + 2vmin);
-  color: #FFB81C;
+  color: #ffb81c;
 }
 
 .header {
@@ -22,5 +22,3 @@ body {
 .subtitle {
   font-size: 1em;
 }
-
-

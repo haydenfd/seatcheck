@@ -1,8 +1,8 @@
-import './App.css';
-import { Form } from './Form/Form';
-import Nav from './Components/Nav/Nav';
-import Guide from './Components/Guide/Guide';
-import { Route,Routes } from 'react-router-dom';
+import "./App.css";
+import Nav from "./Components/Nav/Nav";
+import Guide from "./Components/Guide/Guide";
+import { Route, Routes } from "react-router-dom";
+import { CourseSelect } from "./CourseSelect";
 
 function App() {
   return (
@@ -10,14 +10,17 @@ function App() {
       <Nav />
       <div className="header">
         <h1 className="text-4xl">Seatcheck @ UCLA</h1>
-        <h2 className="text-2xl mt-2 italic">Get notified when a class space opens up</h2>
+        <h2 className="text-2xl mt-2 italic">
+          Get notified when a class space opens up
+        </h2>
       </div>
-      <Routes>        
+      {/* <Routes>        
       <Route path="/guide"  element={<Guide/>} />
-      <Route path="/"  element={<Form/>} />
-    </Routes>
+    </Routes> */}
+      {/* <Guide /> */}
+      <CourseSelect />
     </div>
   );
 }
 
-export default App
+export default App;
