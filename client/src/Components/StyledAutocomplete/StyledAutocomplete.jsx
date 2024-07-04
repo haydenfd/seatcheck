@@ -1,14 +1,15 @@
 import React from 'react'
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
-export const StyledAutocomplete = ({data, value, setValue}) => {
+export const StyledAutocomplete = ({data, value, setValue, label, placeholder}) => {
   return (
     <Autocomplete
-      label="Course"
+      label={label}
       variant="flat"
       defaultItems={data}
-      placeholder="Pick a course"
+      placeholder={placeholder || ""}
       selectedKey={value}
+      isRequired
       size="md"
       onSelectionChange={setValue}
       classNames={{

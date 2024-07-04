@@ -57,14 +57,19 @@ export const CourseTable = ({ rows }) => {
 
   return (
     <>
-    <Table className="bg-black text-red-600" selectionMode="single" 
+    <Table selectionMode="single" 
     defaultSelectedKeys={[""]} 
     selectedKeys={selectedKey}
     onSelectionChange={setSelectedKey}
+    removeWrapper
+    isCompact
+    classNames={{
+        base: "bg-white w-[75vw] mx-auto rounded-md",
+    }}
     >
-      <TableHeader columns={columns}>
+      <TableHeader columns={columns} >
         {(column) => (
-          <TableColumn key={column.key} className="text-red-600">{column.label}</TableColumn>
+          <TableColumn key={column.key}>{column.label}</TableColumn>
         )}
       </TableHeader>
       <TableBody items={rows}>

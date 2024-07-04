@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Autocomplete, AutocompleteItem, Spinner } from "@nextui-org/react";
+import {Spinner } from "@nextui-org/react";
 import courses from "./Data/courses";
 import axios from "axios";
 import { CourseTable } from "./Components/CourseTable/CourseTable";
@@ -46,7 +46,6 @@ export function CourseSelect() {
       .then((res) => {
         const rawData = res.data;
 
-        // Convert the raw data to the desired format
         const formattedData = rawData
           .filter(item => item !== 'noop')  // Filter out the "noop" item
           .map(item => ({
@@ -69,39 +68,14 @@ export function CourseSelect() {
           <Spinner size="lg" />
         </div>
       )}
-      <StyledAutocomplete data={courses} value={value} setValue={setValue}/>
-      {/* <Autocomplete
-        label="Course"
-        variant="bordered"
-        defaultItems={courses}
-        placeholder="Pick a course"
-        className="max-w-lg text-black"
-        selectedKey={value}
-        onSelectionChange={setValue}
-      >
-        {(item) => (
-          <AutocompleteItem key={item.label}>{item.label}</AutocompleteItem>
-        )}
-      </Autocomplete> */}
-      <StyledButton onPress={onClick} text="Search course"/>
+      <StyledAutocomplete data={courses} value={value} setValue={setValue} label="Choose major" placeholder="Pick a major"/>
+  
+      <StyledButton onPress={onClick} text="Search major's instructors"/>
       {prof.length > 0 && (
         <>
-          <StyledAutocomplete data={prof} value={profChoice} setValue={setProfChoice}/>
+          <StyledAutocomplete data={prof} value={profChoice} setValue={setProfChoice} label="Choose instructor" placeholder="Pick an instructor"/>
 
-          {/* <Autocomplete
-            label="Professor"
-            variant="bordered"
-            defaultItems={prof}
-            placeholder="Pick a professor for the course"
-            className="max-w-lg text-black"
-            selectedKey={profChoice}
-            onSelectionChange={setProfChoice}
-          >
-            {(item) => (
-              <AutocompleteItem key={item.label}>{item.value}</AutocompleteItem>
-            )}
-          </Autocomplete> */}
-          <StyledButton onPress={onSecondClick} text="Search instructor"/>
+          <StyledButton onPress={onSecondClick} text="Fetch instructor's offerings"/>
         </>
       )}
       {profCourses.length > 0 && <CourseTable rows={profCourses}/>}
