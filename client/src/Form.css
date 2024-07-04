@@ -5,12 +5,12 @@ Form.css .custom-form {
   margin: 0 auto;
   border: 2px solid #ffb81c;
   border-radius: 12px;
-  padding: 80px; /* Increased padding for better aesthetics */
+  padding: 80px; 
 }
 
 .form-title {
   font-size: 20px;
-  font-weight: 600; /* Semibold */
+  font-weight: 600; 
   margin-bottom: 15px;
 }
 
@@ -19,8 +19,8 @@ Form.css .custom-form {
 }
 
 .form-label {
-  font-size: 22px; /* Increased font size */
-  font-weight: 600; /* Semibold */
+  font-size: 22px; 
+  font-weight: 600; 
   margin-bottom: 2px;
   display: block;
 }
