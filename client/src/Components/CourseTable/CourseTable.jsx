@@ -1,36 +1,7 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from "@nextui-org/react";
 import { StyledButton } from '../StyledButton/StyledButton';
-
-// const rows = [
-//     {
-//       "title": "Lec 1",
-//       "id": "187093200",
-//       "link": "https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0031%20%20%20%20&class_id=187093200&class_no=%20001%20%20",
-//       "courseName": "COMSCI0031",
-//       "status": "Open",
-//       "seats": "10 of 235 Enrolled",
-//       "waitlist": "No Waitlist"
-//     },
-//     {
-//       "title": "Lec 2",
-//       "id": "187093210",
-//       "link": "https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0031%20%20%20%20&class_id=187093210&class_no=%20002%20%20",
-//       "courseName": "COMSCI0031",
-//       "status": "Open",
-//       "seats": "4 of 240 Enrolled",
-//       "waitlist": "No Waitlist"
-//     },
-//     {
-//       "title": "Sem 45",
-//       "id": "587581245",
-//       "link": "https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0298%20%20%20%20&class_id=587581245&class_no=%20045%20%20",
-//       "courseName": "COMSCI0298",
-//       "status": "Open",
-//       "seats": "0 of 10 Enrolled",
-//       "waitlist": "No Waitlist"
-//     }
-//   ]
+import axios from 'axios';
 
 const columns = [
   {
@@ -53,7 +24,26 @@ const columns = [
 
 export const CourseTable = ({ rows }) => {
 
+
   const [selectedKey, setSelectedKey] = React.useState(new Set([]));
+
+  const addTracking = async () => {
+    let addTrackingUrl = `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`;
+
+    axios({
+        url: addTrackingUrl,
+        method: 'POST',
+        data: {
+            "name": "Oliver Melgrove",
+            "email": "oliver@melgrove.com",
+            "url": selectedKey.values().next().value
+        }
+    }).then((res) => {
+        console.log(res.data.statusCode);
+        console.log('DONE');
+    })
+
+  }
 
   return (
     <>
@@ -82,7 +72,7 @@ export const CourseTable = ({ rows }) => {
         )}
       </TableBody>
     </Table>
-    <StyledButton onClick={() => console.log(selectedKey.values().next().value)} text="Add tracking!"/>
+    <StyledButton onClick={() => addTracking()} text="Add tracking!"/>
     </>
 
   );
