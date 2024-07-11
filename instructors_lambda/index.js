@@ -33,7 +33,7 @@ exports.handler = async (event, context, callback) => {
     // query string params - major, abbr, term (might need to separate into year, quarter)
     
     const major = event["queryStringParameters"]["major"].replace(/\s/g, '+') || null;
-    const abbr = `${event["queryStringParameters"]["abbr"].replace(/\s/g, '+')}` || null;
+    const abbr = `${event["queryStringParameters"]["abbr"].replace(/\s/g, '+').replace(/&/g, '%26')}` || null;
     const abbr_with_parentheses = `(${abbr})`
     const term = event["queryStringParameters"]["term"] || null;
     const websiteUrl = `https://sa.ucla.edu/ro/public/soc/Results?SubjectAreaName=${major}+${abbr_with_parentheses}&t=${term}&sBy=subject&subj=${abbr}&catlg=&cls_no=&undefined=Go&btnIsInIndex=btn_inIndex`;
