@@ -1,7 +1,7 @@
 import React from 'react'
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
-export const StyledAutocomplete = ({data, value, setValue, label, placeholder}) => {
+export const StyledAutocomplete = ({data, value, setValue, label, placeholder, isDisabled=false, ...props}) => {
   return (
     <Autocomplete
       label={label}
@@ -10,10 +10,11 @@ export const StyledAutocomplete = ({data, value, setValue, label, placeholder}) 
       placeholder={placeholder || ""}
       selectedKey={value}
       isRequired
-      size="sm"
+      size="md"
+      isDisabled={isDisabled}
       onSelectionChange={setValue}
       classNames={{
-        base: "w-[400px] bg-white rounded-md",
+        base: "w-3/5 bg-white rounded-md",
         selectorButton: "text-ucla-blue font-bold",
         clearButton: "text-ucla-blue font-semibold",
         popoverContent: "bg-ucla-blue font-bold",

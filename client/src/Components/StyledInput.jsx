@@ -1,14 +1,16 @@
-import { Input } from "@nextui-org/react";
+import { Input, cn} from "@nextui-org/react";
 import React from "react";
 
-const StyledInput = ({ label, placeholder, inputState, setInputState }) => {
+export const StyledInput = ({ label, placeholder, inputState, setInputState, isInputRequired = true, ...props}) => {
   return (
     <Input
+      isRequired={isInputRequired}
       label={label}
       placeholder={placeholder}
+      {...props}
       classNames={{
-        label: "text-medium font-semibold",
-        input: ["text-medium", "placeholder:text-default-700/90"],
+        label: cn("text-white/50 "),
+        input: ["placeholder:text-default-700/90"],
       }}
       labelPlacement="outside"
       value={inputState}
@@ -17,4 +19,3 @@ const StyledInput = ({ label, placeholder, inputState, setInputState }) => {
   );
 };
 
-export default StyledInput;

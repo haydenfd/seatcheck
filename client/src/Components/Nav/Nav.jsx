@@ -8,7 +8,7 @@ import {
   ModalBody,
   useDisclosure,
 } from "@nextui-org/react";
-import { Form } from "../../Form/Form";
+// import {Form} from "../../Form/Form";
 
 const Nav = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -69,7 +69,7 @@ const Nav = () => {
                 Track course status
               </ModalHeader>
               <ModalBody>
-                <Form />
+                {/* <Form /> */}
               </ModalBody>
             </>
           )}
