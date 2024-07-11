@@ -1,15 +1,22 @@
 import "./App.css";
 import {Guide} from "./Components/Guide/Guide";
-import { FormProvider } from "./Context/FormContext";
+import { useFormContext } from "./Context/FormContext";
 import { Form } from "./Components/Form/Form";
 import React, { useState } from "react";
 import { StyledButton } from "./Components/UIComponents";
 
 function App() {
 
+  const {
+    hardResetAllFormData
+  } = useFormContext();
+
   const [promptFormStartState, setPromptFormStartState] = useState(true)
 
   const toggleFormStartState = () => {
+    if (!promptFormStartState) {
+      hardResetAllFormData();
+    }
     setPromptFormStartState(!promptFormStartState);
   }
 
@@ -22,12 +29,10 @@ function App() {
         </h2>
       </div>
       <Guide />
-      <FormProvider>
       <div className="w-full mx-auto text-center my-4">
-        <StyledButton text={`${promptFormStartState? "Get started now" : "End tracking"} `} onPress={() => toggleFormStartState()}/>
+        <StyledButton text={`${promptFormStartState? "Get started now" : "End tracking"} `} onPress={toggleFormStartState}/>
       </div>
           <Form isVisible={!promptFormStartState}/>
-        </FormProvider>
     </div>
   );
 }

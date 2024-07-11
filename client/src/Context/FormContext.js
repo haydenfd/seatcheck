@@ -3,13 +3,13 @@ import { createContext, useContext, useState } from "react";
 export const FormContext = createContext({})
 
 const BOILERPLATE_FORM_DATA = {
-  name: "h",
+  name: "",
   major: "",
-  term: "g",
+  term: "",
   professor: "",
-  email: "j",
-  course_url: "h",
-  href: "t",
+  email: "",
+  course_url: "",
+  href: "",
   professors: [],
   courses : [],
 }
@@ -29,7 +29,7 @@ export const FormProvider = ({ children }) => {
 
     const gotoPrevStep = () => setStep(curr => curr - 1);
     const gotoNextStep = () => setStep(curr => curr + 1);
-    const gotoFirstStep = () => setStep(0);
+    const gotoFirstStep = () => setStep(1);
 
     const canPrev1 = step === 2 && formData.major && formData.major.length > 0 ;
     const canPrev2 = step === 3 && formData.href.length > 0;

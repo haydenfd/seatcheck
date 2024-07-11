@@ -35,7 +35,7 @@ export const Form = ({isVisible}) => {
     transition={{ duration: 0.5 }}
     >    
         <Card className={`w-2/3 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
-            <CardHeader className='flex justify-center items-center text-center font-bold text-lg'>
+            <CardHeader className='flex justify-center items-center text-center font-bold text-lg rounded-none bg-ucla-blue text-ucla-gold'>
                 Step {step}/3 : {titles[step - 1]}
             </CardHeader>
             <Divider/>
@@ -44,7 +44,8 @@ export const Form = ({isVisible}) => {
             { step === 2 && <FormSteps.Step2 professor={formData.professor}/>}
             { step === 3 && <FormSteps.Step3 />}
             </CardBody>
-            <CardFooter className='flex flex-row justify-between w-2/5 mx-auto'>
+            <Divider/>
+            <CardFooter className='flex flex-row justify-between w-full mx-auto bg-ucla-blue rounded-none'>
                 <StyledButton onPress={() => gotoPrevStep()} isButtonDisabled={!(canPrev1 || canPrev2)} text="Prev"/>
                 <StyledButton onPress={step === 3? () => onOpen() : () => gotoNextStep()} isButtonDisabled={!(canNext2 || canNext3 || isFormGoodToSubmit())} text={`${step === 3 ? "Finish" : "Submit"}`}/>
             </CardFooter>

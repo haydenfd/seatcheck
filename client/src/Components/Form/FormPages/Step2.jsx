@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell, getKeyValue} from "@nextui-org/react";
 import { useFormContext } from '../../../Context/FormContext'
+import { sanitizeCourseTitle } from '../../../Data/Formatter';
 
 const columns = [
   {
@@ -93,7 +94,12 @@ export const Step2 = ({ professor }) => {
         {(item) => (
           <TableRow key={item.link}>
             {(columnKey) => (
-              <TableCell className="text-red-600">{getKeyValue(item, columnKey)}</TableCell>
+              <TableCell className="text-red-600">
+                {columnKey === 'courseName'
+                  ?  formData.major + ' ' + String(sanitizeCourseTitle(getKeyValue(item, columnKey)))
+                  : getKeyValue(item, columnKey)
+                }                
+              </TableCell>
             )}
           </TableRow>
         )}

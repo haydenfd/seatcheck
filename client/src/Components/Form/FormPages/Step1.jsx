@@ -17,6 +17,7 @@ export const Step1 = () => {
           ...prevData,
           major: selectedValue
         }));
+        console.log(selectedValue);
       };
     
     const handleProfessorChange = (selectedValue) => {
