@@ -36,8 +36,8 @@ export const Form = ({isVisible}) => {
     variants={slideInVariants} 
     transition={{ duration: 0.5 }}
     >    
-        <Card className={`w-3/4 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
-            <CardHeader className='flex justify-center items-center text-center font-bold'>
+        <Card className={`w-2/3 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
+            <CardHeader className='flex justify-center items-center text-center font-bold text-lg'>
                 Step {step}/3 : {titles[step - 1]}
             </CardHeader>
             <Divider/>

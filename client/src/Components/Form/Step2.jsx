@@ -28,7 +28,6 @@ export const Step2 = ({ professor }) => {
 
     const {
         formData, 
-        setFormData,
         handleCoursesChange
     } = useFormContext();
 
