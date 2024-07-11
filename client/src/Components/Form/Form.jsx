@@ -43,7 +43,7 @@ export const Form = ({isVisible}) => {
             <Divider/>
             <CardBody className='my-8 flex flex-col justify-center items-center'>
             { step === 1 && <Step1 />}
-            { step === 2 && <Step2 major={formData.major} />}
+            { step === 2 && <Step2 professor={formData.professor}/>}
             { step === 3 && <Step3 />}
             </CardBody>
             <CardFooter className='flex flex-row justify-between w-2/5 mx-auto'>

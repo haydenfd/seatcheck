@@ -2,7 +2,17 @@ import { createContext, useContext, useState } from "react";
 
 export const FormContext = createContext({})
 
-
+const BOILERPLATE_FORM_DATA = {
+  name: "h",
+  major: "",
+  term: "g",
+  professor: "",
+  email: "j",
+  course_url: "h",
+  href: "t",
+  professors: [],
+  courses : [],
+}
 
 export const FormProvider = ({ children }) => {
 
@@ -15,19 +25,11 @@ export const FormProvider = ({ children }) => {
         'Personal information',
     ];
 
-    const [formData, setFormData] = useState({
-        name: "h",
-        major: "",
-        term: "g",
-        professor: "",
-        email: "j",
-        course_url: "h",
-        href: "t",
-        professors: [],
-    });
+    const [formData, setFormData] = useState(BOILERPLATE_FORM_DATA);
 
     const gotoPrevStep = () => setStep(curr => curr - 1);
     const gotoNextStep = () => setStep(curr => curr + 1);
+    const gotoFirstStep = () => setStep(0);
 
     const canPrev1 = step === 2 && formData.major && formData.major.length > 0 ;
     const canPrev2 = step === 3 && formData.href.length > 0;
@@ -53,8 +55,20 @@ export const FormProvider = ({ children }) => {
         return total === valid;
     }
 
+    const handleCoursesChange = (courses_info) => {
+      setFormData(prevData => ({
+        ...prevData,
+        courses: courses_info,
+      }));
+    }
+
+    const hardResetAllFormData = () => {
+      gotoFirstStep();
+      setFormData(BOILERPLATE_FORM_DATA);
+    }
+
     return (
-        <FormContext.Provider value={{ formData, setFormData, step, setStep, gotoNextStep, gotoPrevStep, canPrev1, canPrev2, canNext2, canNext3, titles, isFormGoodToSubmit }}>
+        <FormContext.Provider value={{ formData, setFormData, step, setStep, gotoNextStep, gotoPrevStep, canPrev1, canPrev2, canNext2, canNext3, titles, isFormGoodToSubmit, handleCoursesChange, hardResetAllFormData }}>
             {children}
         </FormContext.Provider>
     )

@@ -4,12 +4,38 @@ import { StyledButton } from '../StyledButton/StyledButton';
 import { useFormContext } from '../../Context/FormContext'
 import courses from '../../Data/courses';
 import axios from 'axios';
-export const Step2 = () => {
+
+export const Step2 = ({ professor }) => {
     const {
         formData, 
         setFormData,
+        handleCoursesChange
     } = useFormContext();
 
+
+    const fetchOfferingsOptions = async () => {
+
+      let courses_url = `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/courses?instructorName=${professor.replace(/ /g, '+').replace(/,/g, '%2C')}&term=24F`;
+  
+      axios({
+        url: courses_url,
+        method: 'GET',
+      })
+      .then(res => {
+        handleCoursesChange(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+
+    useEffect(() => {
+
+      if (formData.professor.length > 0) {
+          fetchOfferingsOptions();
+      }
+    }, [formData.professor]);
 
 //     const [professors, setProfessors] = useState([]);
 
