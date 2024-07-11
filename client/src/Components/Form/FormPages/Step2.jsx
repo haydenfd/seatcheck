@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { StyledButton } from '../StyledButton/StyledButton';
-import { useFormContext } from '../../Context/FormContext'
 import axios from 'axios';
 import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell, getKeyValue} from "@nextui-org/react";
+import { useFormContext } from '../../../Context/FormContext'
 
 const columns = [
   {
@@ -28,11 +27,13 @@ export const Step2 = ({ professor }) => {
 
     const {
         formData, 
-        handleCoursesChange
+        handleGenericFieldChange,
     } = useFormContext();
 
   const [selectedKey, setSelectedKey] = useState(new Set([]));
   const [selectedCourse, setSelectedCourse] = useState("");
+
+  const handleCoursesChange = (newCourses) => handleGenericFieldChange("courses", newCourses);    
 
   useEffect(() => {
 

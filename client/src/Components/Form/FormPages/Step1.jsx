@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { StyledAutocomplete } from '../StyledAutocomplete/StyledAutocomplete'
-import { useFormContext } from '../../Context/FormContext'
-import courses from '../../Data/courses';
-import { StyledButton } from '../StyledButton/StyledButton';
+import React from 'react'
+import { useFormContext } from '../../../Context/FormContext'
+import courses from '../../../Data/courses';
 import axios from "axios";
+import { StyledAutocomplete, StyledButton } from '../../UIComponents';
 
 export const Step1 = () => {
     const {
         formData, 
         setFormData,
+        handleGenericFieldChange // todo: integrate this; fix styled autocomplete error
     } = useFormContext();
     
 

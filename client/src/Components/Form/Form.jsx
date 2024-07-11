@@ -1,11 +1,9 @@
-import React from 'react'
-import { useFormContext } from '../../Context/FormContext'
-import { Step1 } from './Step1';
-import { Step2 } from './Step2';
-import { Step3 } from './Step3';
+import React from 'react';
+import { useFormContext } from '../../Context/FormContext';
+import * as FormSteps from './FormPages';
 import {Card, CardHeader, CardBody, CardFooter, Divider, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
-import { StyledButton } from '../StyledButton/StyledButton';
 import { motion } from 'framer-motion';
+import { StyledButton } from '../UIComponents';
 
 export const Form = ({isVisible}) => {
     const {
@@ -42,9 +40,9 @@ export const Form = ({isVisible}) => {
             </CardHeader>
             <Divider/>
             <CardBody className='my-8 flex flex-col justify-center items-center'>
-            { step === 1 && <Step1 />}
-            { step === 2 && <Step2 professor={formData.professor}/>}
-            { step === 3 && <Step3 />}
+            { step === 1 && <FormSteps.Step1 />}
+            { step === 2 && <FormSteps.Step2 professor={formData.professor}/>}
+            { step === 3 && <FormSteps.Step3 />}
             </CardBody>
             <CardFooter className='flex flex-row justify-between w-2/5 mx-auto'>
                 <StyledButton onPress={() => gotoPrevStep()} isButtonDisabled={!(canPrev1 || canPrev2)} text="Prev"/>

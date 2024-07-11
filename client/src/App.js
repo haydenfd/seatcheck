@@ -2,8 +2,8 @@ import "./App.css";
 import {Guide} from "./Components/Guide/Guide";
 import { FormProvider } from "./Context/FormContext";
 import { Form } from "./Components/Form/Form";
-import { StyledButton } from "./Components/StyledButton/StyledButton";
 import React, { useState } from "react";
+import { StyledButton } from "./Components/UIComponents";
 
 function App() {
 

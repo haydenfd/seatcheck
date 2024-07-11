@@ -36,6 +36,18 @@ export const FormProvider = ({ children }) => {
     const canNext2 = step === 1 && formData.major && formData.major.length > 0 && formData.professor && formData.professor.length > 0;
     const canNext3 = step === 2;
 
+    const handleGenericFieldChange = (field, newValue) => {
+      setFormData(prevData => ({
+        ...prevData,
+        [field]: newValue,
+      }))
+    }
+
+    function isValidEmailFormat() {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(formData.email);
+    }
+
     const isFormGoodToSubmit = () => {
         const validationResults = {};
   
@@ -68,7 +80,7 @@ export const FormProvider = ({ children }) => {
     }
 
     return (
-        <FormContext.Provider value={{ formData, setFormData, step, setStep, gotoNextStep, gotoPrevStep, canPrev1, canPrev2, canNext2, canNext3, titles, isFormGoodToSubmit, handleCoursesChange, hardResetAllFormData }}>
+        <FormContext.Provider value={{ isValidEmailFormat, handleGenericFieldChange, formData, setFormData, step, setStep, gotoNextStep, gotoPrevStep, canPrev1, canPrev2, canNext2, canNext3, titles, isFormGoodToSubmit, handleCoursesChange, hardResetAllFormData }}>
             {children}
         </FormContext.Provider>
     )
