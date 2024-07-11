@@ -57,17 +57,13 @@ export const Step1 = () => {
       
   return (
     <div className='flex flex-col gap-8 w-full'>
-      <div className='flex flex-row justify-between w-4/5 mx-auto bg-red-400 items-center'>
+      <div className='flex flex-row justify-between w-3/5 mx-auto items-center'>
         <StyledAutocomplete placeholder="Pick a major" label="Pick a major" value={formData.major} setValue={handleMajorChange} data={courses}/>
         <StyledButton onPress={() => fetchProfessorsForMajor()} isButtonDisabled={!(formData.major)} text="Search"/>
       </div>
-      <div className={`flex flex-row justify-between w-4/5 mx-auto bg-red-400 items-center `}>
+      <div className={`flex flex-row w-1/2 mx-auto items-center justify-center `}>
         <StyledAutocomplete placeholder="Pick a professor" label="Choose a professor" isDisabled={!formData.professors.length > 0} value={formData.professor} setValue={handleProfessorChange} data={formData.professors}/>
-        {/* <StyledButton onPress={() => fetchProfessorsForMajor()} isButtonDisabled={!(formData.major && formData.professor)} text="Search"/> */}
-        {/* <StyledAutocomplete placeholder="Pick a major" label="Pick a major" value={formData.major} setValue={handleMajorChange} data={courses}/>
-        <StyledButton onPress={() => console.log("Hello")} isButtonDisabled={!(formData.major)} text="Search"/> */}
       </div>
-      <button onClick={() => console.log(formData.professors)}>lol</button>
     </div>    
   )
 }

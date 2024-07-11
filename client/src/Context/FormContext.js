@@ -17,9 +17,9 @@ export const FormProvider = ({ children }) => {
 
     const [formData, setFormData] = useState({
         name: "h",
-        major: "f",
+        major: "",
         term: "g",
-        professor: "h",
+        professor: "",
         email: "j",
         course_url: "h",
         href: "t",
@@ -31,7 +31,7 @@ export const FormProvider = ({ children }) => {
 
     const canPrev1 = step === 2 && formData.major && formData.major.length > 0 ;
     const canPrev2 = step === 3 && formData.href.length > 0;
-    const canNext2 = step === 1 && formData.major && formData.professor;
+    const canNext2 = step === 1 && formData.major && formData.major.length > 0 && formData.professor && formData.professor.length > 0;
     const canNext3 = step === 2;
 
     const isFormGoodToSubmit = () => {

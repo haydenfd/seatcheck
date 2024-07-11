@@ -6,7 +6,7 @@ export const StyledButton = ({ onPress, text, isButtonDisabled = false, ...props
     <Button
       onPress={onPress}
       isDisabled={isButtonDisabled}
-      className= {`cursor-pointer mx-auto bg-ucla-blue text-white border-2 border-transparent rounded-md hover:border-ucla-blue p-2 hover:bg-ucla-gold hover:text-ucla-blue transition-all duration-300 ease-in-out py-6`}
+      className= {`cursor-pointer mx-auto bg-ucla-blue text-white border-2 border-transparent rounded-md hover:border-ucla-blue hover:bg-ucla-gold hover:text-ucla-blue transition-all duration-300 ease-in-out py-4 px-6`}
   
     >
       {text}
