@@ -36,7 +36,7 @@ export const Form = ({isVisible}) => {
     variants={slideInVariants} 
     transition={{ duration: 0.5 }}
     >    
-        <Card className={`w-1/2 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
+        <Card className={`w-3/4 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
             <CardHeader className='flex justify-center items-center text-center font-bold'>
                 Step {step}/3 : {titles[step - 1]}
             </CardHeader>
@@ -48,12 +48,15 @@ export const Form = ({isVisible}) => {
             </CardBody>
             <CardFooter className='flex flex-row justify-between w-2/5 mx-auto'>
                 <StyledButton onPress={() => gotoPrevStep()} isButtonDisabled={!(canPrev1 || canPrev2)} text="Prev"/>
-                <StyledButton onPress={step === 3? () => onOpen() : () => gotoNextStep()} isButtonDisabled={!canNext2} text={`${step === 3 ? "Finish" : "Submit"}`}/>
+                <StyledButton onPress={step === 3? () => onOpen() : () => gotoNextStep()} isButtonDisabled={!(canNext2 || canNext3 || isFormGoodToSubmit())} text={`${step === 3 ? "Finish" : "Submit"}`}/>
             </CardFooter>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent> 
             {(onClose) => (
                 <>
+                {
+                    console.log(formData)
+                }
                 <ModalHeader className="flex flex-col gap-1">Confirmation</ModalHeader>
                 <Divider/>
                 <ModalBody>

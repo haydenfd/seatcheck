@@ -1,17 +1,47 @@
-import React, { useEffect,useState } from 'react'
-import { StyledAutocomplete } from '../StyledAutocomplete/StyledAutocomplete'
+import React, { useEffect, useState } from 'react'
 import { StyledButton } from '../StyledButton/StyledButton';
 import { useFormContext } from '../../Context/FormContext'
-import courses from '../../Data/courses';
 import axios from 'axios';
+import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell, getKeyValue} from "@nextui-org/react";
+
+const columns = [
+  {
+    key: "courseName",
+    label: "Course",
+  },
+  {
+    key: "title",
+    label: "Offering",
+  },
+  {
+    key: "status",
+    label: "Status",
+  },
+  {
+    key: "waitlist",
+    label: "Waitlist",
+  },  
+];
+
 
 export const Step2 = ({ professor }) => {
+
     const {
         formData, 
         setFormData,
         handleCoursesChange
     } = useFormContext();
 
+  const [selectedKey, setSelectedKey] = useState(new Set([]));
+  const [selectedCourse, setSelectedCourse] = useState("");
+
+  useEffect(() => {
+
+    formData.courses.forEach((course) => {
+      setSelectedCourse(selectedKey.values().next().value)
+    })
+
+  }, [selectedKey]);
 
     const fetchOfferingsOptions = async () => {
 
@@ -32,69 +62,45 @@ export const Step2 = ({ professor }) => {
 
     useEffect(() => {
 
+      const selectedCourse = formData.courses.filter((course) => selectedKey.values().next().value === course.link);
+      setSelectedCourse(selectedCourse);
+    }, [selectedKey])
+    useEffect(() => {
+
       if (formData.professor.length > 0) {
           fetchOfferingsOptions();
       }
     }, [formData.professor]);
 
-//     const [professors, setProfessors] = useState([]);
 
-//     const handleProfChange = (selectedValue) => {
-//         setFormData(prevData => ({
-//           ...prevData,
-//           professor: selectedValue
-//         }));
-//       };
-
-//     const onSecondClick = async () => {
-
-//     let courses_url = `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/courses?instructorName=${formData.professor.replace(/ /g, '+').replace(/,/g, '%2C')}&term=24F`;
-
-//     axios({
-//         url: courses_url,
-//         method: 'GET',
-//     })
-//     .then(res => {
-//         console.log(res.data);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-//     }
-
-//   const onClick = async () => {
-//     const selectedCourse = courses.find((course) => course.label === major);
-
-//     let url = `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/instructors?abbr=${major.replace(/\s/g, '+')}&major=${selectedCourse.value.replace(/\s/g, '+')}&term=24F`;
-//     console.log(url);
-//     axios({
-//       url: url,
-//       method: "GET",
-//     })
-//       .then((res) => {
-//         const rawData = res.data;
-
-//         const formattedData = rawData
-//           .filter(item => item !== 'noop')  
-//           .map(item => ({
-//             label: item,
-//             value: item
-//           }));
-//         setProfessors(formattedData);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-//     useEffect(() => {
-//         onClick();
-//     }, [])
-      
   return (
-      <>
-        <div className='flex flex-row justify-start w-5/6 items-center'>
-            <p>Hi</p>
-        </div>
+<>
+    <Table selectionMode="single" 
+    selectedKeys={selectedKey}
+    onSelectionChange={setSelectedKey}
+    removeWrapper
+    isCompact
+    classNames={{
+        base: "bg-white mx-auto rounded-md",
+    }}
+    >
+      <TableHeader columns={columns} >
+        {(column) => (
+          <TableColumn key={column.key}>{column.label}</TableColumn>
+        )}
+      </TableHeader>
+      <TableBody items={formData.courses}>
+        {(item) => (
+          <TableRow key={item.link}>
+            {(columnKey) => (
+              <TableCell className="text-red-600">{getKeyValue(item, columnKey)}</TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+    <h3 className='text-md font-medium mt-6'>You have selected: {selectedCourse[0]?.courseName}, {selectedCourse[0]?.title}</h3>
     </>
+
   )
 }
