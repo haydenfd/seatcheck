@@ -9,7 +9,7 @@ export const StyledInput = ({ label, placeholder, inputState, setInputState, isI
       placeholder={placeholder}
       {...props}
       classNames={{
-        label: cn("text-white/50 "),
+        label: cn("font-semibold text-sm"),
         input: ["placeholder:text-default-700/90"],
       }}
       labelPlacement="outside"

@@ -35,8 +35,8 @@ export const Form = ({isVisible}) => {
     transition={{ duration: 0.5 }}
     >    
         <Card className={`w-2/3 text-black bg-white rounded-md mx-auto flex flex-col shadow-lg ${isVisible ? 'visible' : 'invisible'}`}>
-            <CardHeader className='flex justify-center items-center text-center font-bold text-lg rounded-none bg-ucla-blue text-ucla-gold'>
-                Step {step}/3 : {titles[step - 1]}
+            <CardHeader className='flex justify-center items-center text-center font-bold text-xl rounded-none bg-ucla-blue text-ucla-gold'>
+                Step {step}/3: {titles[step - 1]}
             </CardHeader>
             <Divider/>
             <CardBody className='my-8 flex flex-col justify-center items-center'>

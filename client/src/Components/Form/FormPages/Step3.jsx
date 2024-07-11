@@ -13,7 +13,7 @@ export const Step3 = () => {
     const handleEmailChange = (newEmail) => handleGenericFieldChange("email", newEmail);
 
   return (
-    <div className='flex flex-col w-4/5 gap-4'>
+    <div className='flex flex-col w-4/5 gap-8'>
         <StyledInput label="What's your name?" placeholder="Joe Bruin" inputState={formData.name} setInputState={handleNameChange}/>
         <StyledInput label="What's your email address?" placeholder="skobru@ucla.edu" inputState={formData.email} setInputState={handleEmailChange}/>    
     </div>
