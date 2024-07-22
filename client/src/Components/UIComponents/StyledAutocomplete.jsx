@@ -1,7 +1,15 @@
-import React from 'react'
+import React from "react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
-export const StyledAutocomplete = ({data, value, setValue, label, placeholder, isDisabled=false, ...props}) => {
+export const StyledAutocomplete = ({
+  data,
+  value,
+  setValue,
+  label,
+  placeholder,
+  isDisabled = false,
+  ...props
+}) => {
   return (
     <Autocomplete
       label={label}
@@ -21,10 +29,13 @@ export const StyledAutocomplete = ({data, value, setValue, label, placeholder, i
       }}
     >
       {(item) => (
-        <AutocompleteItem key={item.label} className='text-ucla-gold data-[hover]:text-black'>
+        <AutocompleteItem
+          key={item.label}
+          className="text-ucla-gold data-[hover]:text-black"
+        >
           {item.label}
         </AutocompleteItem>
       )}
     </Autocomplete>
-  )
-}
+  );
+};

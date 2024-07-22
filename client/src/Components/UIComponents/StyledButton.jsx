@@ -1,13 +1,18 @@
-import React from 'react';
-import { Button } from '@nextui-org/react';
+import React from "react";
+import { Button } from "@nextui-org/react";
 
-export const StyledButton = ({ onPress, text, isButtonDisabled = false, ...props }) => {
+export const StyledButton = ({
+  onPress,
+  text,
+  isButtonDisabled = false,
+  classes = "",
+  ...props
+}) => {
   return (
     <Button
       onPress={onPress}
       isDisabled={isButtonDisabled}
-      className= {`cursor-pointer mx-auto bg-ucla-blue text-white border-2 border-transparent rounded-md hover:border-ucla-blue hover:bg-ucla-gold hover:text-ucla-blue transition-all duration-300 ease-in-out py-4 px-6`}
-  
+      className={`cursor-pointer mx-auto data-[disabled]:bg-red-400 bg-ucla-blue text-white border-2 border-transparent rounded-none hover:border-ucla-blue hover:bg-ucla-gold hover:text-ucla-blue transition-all duration-300 ease-in-out py-4 px-6 ${classes}`}
     >
       {text}
     </Button>

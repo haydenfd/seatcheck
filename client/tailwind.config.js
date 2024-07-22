@@ -13,7 +13,7 @@ module.exports = {
         "ucla-blue": "#2774AE",
       },
       boxShadow: {
-        'subtle': '0 4px 12px rgba(255, 179, 0, 0.5)',
+        subtle: "0 4px 12px rgba(255, 179, 0, 0.5)",
       },
     },
   },
