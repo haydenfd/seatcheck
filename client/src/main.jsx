@@ -1,17 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from '@/App.jsx'
-import '@/index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { Provider } from "react-redux";
 import { NextUIProvider } from '@nextui-org/react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { StepProvider } from "@/context/stepcontext";
+import store from '@/store/store';
+import App from '@/App';
+import '@/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    // <Provider>
+    <Provider store={store}>
       <NextUIProvider>
-        <Router>
-          <App />
-        </Router>
+        <StepProvider>
+          <Router>
+            <App />
+          </Router>
+        </StepProvider>
       </NextUIProvider>
-    // </Provider>
+    </Provider>
 )
