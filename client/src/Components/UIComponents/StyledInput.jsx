@@ -9,6 +9,7 @@ export const StyledInput = ({
   isInvalid = false,
   errorMessage = "",
   isInputRequired = true,
+  isClearable = false,
   ...props
 }) => {
   return (
@@ -17,6 +18,9 @@ export const StyledInput = ({
       classNames={{
         label: cn("font-semibold text-sm"),
         input: ["placeholder:text-default-700/90"],
+        errorMessage: cn(
+          `font-medium text-sm invisible ${isInvalid ? "visible" : ""}`,
+        ),
       }}
       isRequired={isInputRequired}
       label={label}
@@ -27,6 +31,7 @@ export const StyledInput = ({
       isInvalid={isInvalid}
       errorMessage={errorMessage}
       color={isInvalid ? "danger" : ""}
+      isClearable = {isClearable}
     />
   );
 };

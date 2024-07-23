@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { incrementStep } from "../../Store/formSlice";
 
 export const Guide = () => {
   return (

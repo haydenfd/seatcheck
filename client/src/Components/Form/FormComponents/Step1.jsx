@@ -1,45 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledInput, StyledButton } from "../../UIComponents";
-import { useDispatch } from "react-redux";
-import { mutatePersonalDetails } from "../../../Store/formSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { mutateCourseUrl } from "../../../Store/formSlice";
+import { useStepContext } from "../../../Context/StepContext";
 
 export const Step1 = () => {
+  const { nextStep } = useStepContext();
+  const store_url = useSelector((state) => state.form.course_url);
+
+  const [url, setUrl] = useState("");
+  const [isUrlValid, setIsUrlValid] = useState(true);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  useEffect(() => {
+    if (store_url) {
+      setUrl(store_url);
+    }
+  }, []);
+  
+  const urlValidator = (str) => {
+    const regex = /^https:\/\/(www\.)?sa\.ucla\.edu\/ro\/Public\/SOC\/Results\/ClassDetail\?.+/;
+    return regex.test(url);
+  }
 
   const handleSubmit = () => {
-    console.log("Submitted");
-    const personalDetailsPayload = {
-      name: name,
-      email: email,
-    };
+    if (urlValidator(url)) {
+      setIsUrlValid(true);
+      dispatch(mutateCourseUrl({
+        course_url: url,
+      }))
+      nextStep();
+    } else {
+      setIsUrlValid(false);
 
-    dispatch(mutatePersonalDetails(personalDetailsPayload));
-  };
+    }
+  }
+
   return (
     <div className="flex flex-col gap-8 w-full">
       <StyledInput
-        label="Enter your name"
-        placeholder="Joe Bruin"
-        inputState={name}
-        setInputState={setName}
+        label="Enter course URL"
+        placeholder="https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail..."
+        inputState={url}
+        setInputState={setUrl}
+        isInvalid={!isUrlValid}
+        errorMessage="Please enter a valid URL"
+        isClearable={true}
       />
-      <StyledInput
-        label="Enter your email address"
-        placeholder="skobru@ucla.edu"
-        errorMessage="Please enter a valid email"
-        inputState={email}
-        setInputState={setEmail}
-      />
-      <div className="w-full bg-blue-500 flex">
-        <StyledButton
-          onPress={() => console.log("hello")}
-          text="Prev"
-          classes="flex-1"
-        />
-        <StyledButton onPress={handleSubmit} text="Submit" classes="flex-1" />
+      <div>
+         <StyledButton
+            onPress={() => {}}
+            isButtonDisabled={true}
+            text="Previous"
+            classes="w-1/2 flex-1"
+          />
+          <StyledButton
+            onPress={handleSubmit}
+            isButtonDisabled={false}
+            text="Next"
+            classes="w-1/2 flex-1"
+          />        
       </div>
     </div>
   );
