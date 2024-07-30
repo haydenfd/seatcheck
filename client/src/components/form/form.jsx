@@ -8,7 +8,7 @@ import { useStepContext } from "@/context/stepcontext";
 
 const titles = [
   "Input course/section URL",
-  "Confirm tracking setting",
+  "Set up tracking notifications",
   "Personal information",
 ];
 
@@ -34,7 +34,7 @@ export const Form = ({ isVisible }) => {
       >
         <Card className="w-3/4 text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0">
           <CardHeader className="flex justify-center items-center text-center font-bold text-xl rounded-none bg-ucla-blue text-ucla-gold">
-            <h1>Step {step}</h1>
+            <h1>Step {step}: {titles[step - 1]}</h1>
           </CardHeader>
           <Divider />
           <CardBody className="flex flex-col justify-center items-center p-0 mt-10">

@@ -17,8 +17,8 @@ export const Step1 = () => {
   const [url, setUrl] = useState("");
   const [isUrlValid, setIsUrlValid] = useState(true);
   const [urlInputErrorMsg, setUrlInputErrorMsg] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
 
+  const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
@@ -26,6 +26,8 @@ export const Step1 = () => {
   const { setToLoad, setLoaded } = useLoadingContext();
 
   const dispatch = useDispatch();
+
+  const launchModal = () => setModalOpen(true);
 
   useEffect(() => {
     if (store_url) {
@@ -62,16 +64,25 @@ export const Step1 = () => {
 
     for (let [key, value] of searchParams.entries()) {
       if (!requiredParams.includes(key)) {
-        console.log("Invalid param");
+        setModalTitle("Oops! The link is incorrect. Please try again");
+        setModalBody("The URL you've entered doesn't match the format of UCLA's Schedule Of Classes links. Your URL should match this format --- sa.ucla.edu.....");
+        setModalType("error");
+        launchModal();
       }
 
-      if (key === "term_cd" && !FormUtils.validTerms.includes(value)) {
-        console.log("invalid term");
+      else if (key === "term_cd" && FormUtils.tentativeTerms.includes(value)) {
+        setModalTitle("Oops! You can't track this course yet");
+        setModalBody("The course you're trying to track is for a later quarter, the logistics of which is still tentative. Please enter a URL for a Summer 2024 or Fall 2024 class.");
+        setModalType("error");
+        launchModal();
       }
     }
 
-    if (searchParams.size !== 5) {
-      console.log("Invalid URL, too many query params");
+    if (searchParams.size < 5) {
+      setModalTitle("Oops! The link is incorrect. Please try again");
+      setModalBody("The URL you've entered doesn't have all the necessary information; I am unable to fetch the course. Your URL should match this format --- sa.ucla.edu.....");
+      setModalType("error");
+      launchModal();
     }
 
     dispatch(
@@ -90,8 +101,8 @@ export const Step1 = () => {
     dispatch(setCourseAnalysisData(response.data));
 
     setLoaded();
-    setModalOpen(true);
-    // nextStep();
+
+    nextStep();
   };
 
   return (

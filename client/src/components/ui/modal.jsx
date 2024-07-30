@@ -12,9 +12,9 @@ export const StyledModal = ({ isOpen, onOpenChange, type, title, body }) => {
       size="2xl"
       classNames={{
         closeButton:
-          "text-black text-2xl mr-3 mt-1 hover:bg-ucla-blue hover:text-ucla-gold",
-        body: "w-full mx-auto",
-        base: "absolute bottom-[50vh]",
+          "text-black text-2xl mr-3 mt-4 hover:bg-ucla-blue hover:text-ucla-gold",
+        body: "w-full mx-auto leading-6 text-justify",
+        base: "absolute bottom-[40vh] py-4",
       }}
     >
       <ModalContent>

@@ -1,17 +1,30 @@
 import React, { useState, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StyledButton } from "@/components/ui/styled-button";
 import { StyledInput } from "@/components/ui/styled-input";
 import { mutatePersonalDetails } from "@/store/form-slice";
 import { useStepContext } from "@/context/stepcontext";
+import { StyledModal } from "@/components/ui/modal";
 
 export const Step3 = () => {
   const dispatch = useDispatch();
+  const store_form = useSelector((state) => state.form);
+
 
   const { prevStep } = useStepContext();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmationEmail, setConfirmationEmail] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const [modalBody, setModalBody] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
+
+  const launchModal = () => setModalOpen(true);
+
+
 
   const [isEmailValid, setIsEmailValid] = useState(true);
 
@@ -20,13 +33,15 @@ export const Step3 = () => {
     return emailRegex.test(_email);
   };
 
+  const doesConfirmationEmailMatch = () => email.trim() === confirmationEmail.trim();
+
   function isEmptyOrSpaces(str) {
     return str === "" || str.match(/^ *$/) !== null;
   }
 
   const canUserSubmit = useMemo(() => {
-    return !isEmptyOrSpaces(name) && !isEmptyOrSpaces(email);
-  }, [name, email]);
+    return !isEmptyOrSpaces(name) && !isEmptyOrSpaces(email) && !isEmptyOrSpaces(confirmationEmail);
+  }, [name, email, confirmationEmail]);
 
   const handleSubmit = () => {
     const emailValid = isValidEmail(email);
@@ -34,26 +49,48 @@ export const Step3 = () => {
     if (!emailValid) {
       setIsEmailValid(false);
       setEmail("");
-    } else {
+    } else if (!doesConfirmationEmailMatch()) {
+      setConfirmationEmail("");
+      // may need state for is valid here...
+    } 
+    else {
       setIsEmailValid(true);
-      console.log("Submitted");
       const personalDetailsPayload = {
         name: name,
         email: email,
       };
 
       dispatch(mutatePersonalDetails(personalDetailsPayload));
+
+      // send info to Lambda function to add to mongoDB instance
+
+
+      // assume successful response
+      setModalTitle("Success! You're all set");
+      setModalBody(`Hey ${store_form.name}, your tracking for X course has been set up. You should have received a confirmation email from us(check spam, too). Thanks for using SeatCheck!`);
+      setModalType("success");
+      launchModal();
+
     }
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full">
+    <div className="flex flex-col gap-4 w-full">
+        <StyledModal
+          isOpen={modalOpen}
+          onOpenChange={setModalOpen}
+          title={modalTitle}
+          body={modalBody}
+          type={modalType}
+      />
+      <p className="w-3/4 mx-auto text-md font-medium text-center">You must fill out all the fields to submit the form</p>
       <div className="w-3/4 mx-auto">
         <StyledInput
           label="Enter your name"
           placeholder="Joe Bruin"
           inputState={name}
           setInputState={setName}
+          isClearable={true}
         />
         <StyledInput
           label="Enter your email address"
@@ -62,6 +99,15 @@ export const Step3 = () => {
           inputState={email}
           setInputState={setEmail}
           isInvalid={!isEmailValid}
+          isClearable={true}
+        />
+        <StyledInput
+          label="Confirm your email address"
+          placeholder="skobru@ucla.edu"
+          inputState={confirmationEmail}
+          setInputState={setConfirmationEmail}
+          isInvalid={!doesConfirmationEmailMatch}
+          isClearable={true}
         />
       </div>
       <div>

@@ -12,6 +12,7 @@ export const formSlice = createSlice({
     mutatePersonalDetails: (state, action) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
+      console.log(state.name, state.email);
     },
     mutateCourseUrl: (state, action) => {
       state.course_url = action.payload.course_url;
