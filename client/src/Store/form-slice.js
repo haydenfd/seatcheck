@@ -6,6 +6,7 @@ export const formSlice = createSlice({
     name: "",
     email: "",
     course_url: "",
+    tracking_preferences: [],
   },
   reducers: {
     mutatePersonalDetails: (state, action) => {
@@ -14,11 +15,19 @@ export const formSlice = createSlice({
     },
     mutateCourseUrl: (state, action) => {
       state.course_url = action.payload.course_url;
-      console.log(`Saved ${state.course_url}`)
+      console.log(`Saved ${state.course_url}`);
+    },
+    setTrackingPreferences: (state, action) => {
+      state.tracking_preferences = action.payload.selected_options;
+      console.log(`Preferences ${state.tracking_preferences}`);
     },
   },
 });
 
-export const { mutatePersonalDetails, mutateCourseUrl } = formSlice.actions;
+export const {
+  mutatePersonalDetails,
+  mutateCourseUrl,
+  setTrackingPreferences,
+} = formSlice.actions;
 
 export default formSlice.reducer;

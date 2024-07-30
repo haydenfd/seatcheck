@@ -5,10 +5,10 @@ import commonjs from "vite-plugin-commonjs";
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
@@ -41,8 +41,8 @@ module.exports = {
       },
       boxShadow: {
         subtle: "0 4px 12px rgba(255, 179, 0, 0.5)",
-      },      
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), nextui(), commonjs()],
-}
+};

@@ -10,18 +10,21 @@ export const StyledInput = ({
   errorMessage = "",
   isInputRequired = true,
   isClearable = false,
+  classes = "",
   ...props
 }) => {
   return (
     <Input
       {...props}
       classNames={{
-        label: cn("font-semibold text-sm"),
+        label: cn("font-medium text-md text-black-600"),
         input: ["placeholder:text-default-700/90"],
+        mainWrapper: cn("py-4"),
         errorMessage: cn(
           `font-medium text-sm invisible ${isInvalid ? "visible" : ""}`,
         ),
       }}
+      className={classes}
       isRequired={isInputRequired}
       label={label}
       placeholder={placeholder}
@@ -31,7 +34,7 @@ export const StyledInput = ({
       isInvalid={isInvalid}
       errorMessage={errorMessage}
       color={isInvalid ? "danger" : ""}
-      isClearable = {isClearable}
+      isClearable={isClearable}
     />
   );
 };

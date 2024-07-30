@@ -2,7 +2,7 @@ import React from "react";
 
 export const Guide = () => {
   return (
-    <div className="w-3/4 mx-auto my-8">
+    <div className="w-3/4 mx-auto my-4">
       <p className="text-justify text-lg">
         If you want to get notified when a spot in that class you really need
         finally opens up, this website is for you! Simply navigate to the
