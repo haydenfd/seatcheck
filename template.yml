@@ -31,6 +31,12 @@ Resources:
       CodeUri: add_tracking_lambda/
       MemorySize: 3000
       Timeout: 45
+      Environment:
+        Variables:
+          MONGO_USER: "haydenfds"
+          MONGO_PASS: "penisman"
+          MONGO_CLUSTER: "cluster0.jr8nyfv.mongodb.net"
+
 
   ScrapeCourseInfoLambdaFunction:
     Type: AWS::Serverless::Function
@@ -41,3 +47,30 @@ Resources:
       CodeUri: scrape_course_info_lambda/
       MemorySize: 3000
       Timeout: 45
+
+  ParseUrlLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ParseUrlLambdaFunction
+      Handler: parse_url/index.handler
+      Runtime: nodejs18.x
+      CodeUri: parse_url/
+      MemorySize: 3000
+      Timeout: 45
+
+
+  SendUserConfirmationEmailLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SendUserConfirmationEmailLambdaFunction
+      Handler: app.main
+      Runtime: python3.11
+      CodeUri: send_confirmation_email_lambda/
+      MemorySize: 1000
+      Timeout: 45
+      Environment:
+        Variables:
+          EMAIL_HOST: "smtp.gmail.com"
+          EMAIL_PASS: "lowt sace zdvj ktbd"
+          EMAIL_PORT: 587
+          EMAIL_SENDER: "haydenfds@gmail.com"

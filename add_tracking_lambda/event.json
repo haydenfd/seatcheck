@@ -1,7 +1,8 @@
 {
-    "data": {
-        "name": "Bobby",
-        "email": "bobby@gmail.com",
-        "url": "https://www.wikipedia.org"
+    "form": {    
+        "name": "Cocky",
+        "email": "poopybutthole@gmail.com",
+        "course_url": "https://www.morty.org",
+        "tracking_preferences": ["1","2","3"]
     }
 }

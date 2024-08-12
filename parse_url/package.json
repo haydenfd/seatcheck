@@ -1,0 +1,18 @@
+{
+  "name": "parse_url",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@sparticuz/chromium": "^126.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "prettier": "^3.3.3",
+    "puppeteer-core": "^22.13.1"
+  }
+}

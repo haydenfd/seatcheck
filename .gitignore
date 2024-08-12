@@ -1,4 +1,4 @@
-/db_config.md
+/lambda_template_config_notes.md
 */node_modules
 .aws-sam/
 .DS_Store
