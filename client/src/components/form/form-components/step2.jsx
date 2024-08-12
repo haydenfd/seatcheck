@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import { StyledButton } from "@/components/ui/styled-button";
 import { useStepContext } from "@/context/stepcontext";
 import { useSelector, useDispatch } from "react-redux";
-import { TrackingCheckboxes } from "@/components/ui/tracking-checkboxes";
+// import { TrackingCheckboxes } from "@/components/ui/tracking-checkboxes";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { setTrackingPreferences } from "@/store/form-slice";
 
 const options = {
-  "notify-seat-open": "Notify me when a seat opens up in the class",
-  "notify-waitlist-spot-open": "Notify me when a waitlist spot opens up",
-  "notify-less-than-three-seats-left":
-    "Notify me when the class hits 90% enrollment",
-  "notify-less-than-three-waitlist-spots-left":
-    "Notify me when the waitlist reaches only has 3 spots left",
+  "notify-enrollment-status-change": "Notify me when enrollment status changes (Open --> Closed, Closed --> Open)",
+  "notify-waitlist-status-change": "Notify me when the waitlist status changes",
+  // "notify-less-than-three-seats-left":
+  //   "Notify me when the class hits 90% enrollment",
+  // "notify-less-than-three-waitlist-spots-left":
+  //   "Notify me when the waitlist reaches only has 3 spots left",
+
 };
 
 export const Step2 = () => {
@@ -66,19 +67,21 @@ export const Step2 = () => {
   return (
     <div className="flex flex-col gap-8 w-full">
       <section className="text-center w-full">
-        <h3 className="font-medium">
+        <h3 className="text-2xl font-bold underline mb-4">
+          {store_course_analysis.term_display}
+        </h3>
+        <h3 className="text-xl font-bold ">
           {store_course_analysis.subject_class},{" "}
           {store_course_analysis.section_title}
         </h3>
-        <p className="font-medium italic">
-          {store_course_analysis.instructors[0]} (
-          {store_course_analysis.term_display})
+        <p className="text-xl font-bold">
+          {store_course_analysis.instructors[0]} 
         </p>
         <p className="font-medium text-green-500">
-          {store_course_analysis.status_text}
+          Class status: {store_course_analysis.status_text}
         </p>
         <p className="font-medium text-red-500">
-          Waitlist: {store_course_analysis.waitlist_text}
+          Waitlist status: {store_course_analysis.waitlist_text}
         </p>
       </section>
 

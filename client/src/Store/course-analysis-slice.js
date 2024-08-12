@@ -20,7 +20,7 @@ export const courseAnalysisSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCourseAnalysisData(state, action) {
-      console.log(action.payload);
+      // console.log(action.payload);
       return { ...state, ...action.payload };
     },
   },

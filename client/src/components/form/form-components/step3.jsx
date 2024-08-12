@@ -8,9 +8,10 @@ import { StyledModal } from "@/components/ui/modal";
 import axios from "axios";
 
 export const Step3 = ({ setVisible }) => {
+
   const dispatch = useDispatch();
   const store_form = useSelector((state) => state.form);
-
+  const store_course_analysis = useSelector((state) => state.courseAnalysis);
 
   const { prevStep } = useStepContext();
 
@@ -66,11 +67,12 @@ export const Step3 = ({ setVisible }) => {
       // send info to Lambda function to add to mongoDB instance
 
       // console.log(`Form: ${JSON.stringify(store_form)}`);
-
       const response = await axios.post(
         `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`, {
-          form: store_form,
-        })
+            form: store_form,
+            course_analysis: store_course_analysis,
+        });
+
       console.log(response.data);
 
       // assume successful response
