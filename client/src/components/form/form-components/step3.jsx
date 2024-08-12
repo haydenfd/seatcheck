@@ -77,7 +77,7 @@ export const Step3 = ({ setVisible }) => {
 
       // assume successful response
       setModalTitle("Success! You're all set");
-      setModalBody(`Hey ${store_form.name}, your tracking for X course has been set up. You should have received a confirmation email from us(check spam, too). Thanks for using SeatCheck!`);
+      setModalBody(`Hey ${name}, your tracking for X course has been set up. You should have received a confirmation email from us (check spam, too). Thanks for using SeatCheck!`);
       setModalType("success");
       launchModal();
       // setVisible(false);

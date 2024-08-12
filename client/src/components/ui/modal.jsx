@@ -13,7 +13,7 @@ export const StyledModal = ({ isOpen, onOpenChange, type, title, body }) => {
       classNames={{
         closeButton:
           `text-white rounded-none text-2xl bg-red-400 mr-4 mt-2 p-1 hover:text-red-400 hover:bg-white border-2 border-solid border-red-400 hover:border-red-400`,
-        body: "w-full mx-auto leading-6 text-justify",
+        body: "w-full mx-auto leading-6 ",
         base: "absolute bottom-[40vh]",
       }}
     >

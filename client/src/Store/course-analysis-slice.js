@@ -19,13 +19,17 @@ export const courseAnalysisSlice = createSlice({
   name: "courseAnalysis",
   initialState: initialState,
   reducers: {
-    setCourseAnalysisData(state, action) {
+    setCourseAnalysisData: (state, action) => {
       // console.log(action.payload);
       return { ...state, ...action.payload };
     },
+    resetCourseAnalysis: () => {
+      return initialState;
+    }
+
   },
 });
 
-export const { setCourseAnalysisData } = courseAnalysisSlice.actions;
+export const { setCourseAnalysisData, resetCourseAnalysis } = courseAnalysisSlice.actions;
 
 export default courseAnalysisSlice.reducer;

@@ -5,10 +5,16 @@ import { Form } from "@/components/form/form";
 import { StyledButton } from "./components/ui/styled-button";
 import { useLoadingContext } from "./context/loadingcontext";
 import { Loader } from "./components/ui/loader";
+import { useStepContext } from "./context/stepcontext";
+import { useDispatch } from "react-redux";
+import { resetFormData } from "./store/form-slice";
+import { resetCourseAnalysis } from "./store/course-analysis-slice";
 
 function App() {
   const [loadForm, setLoadForm] = useState(false);
   const { isLoading } = useLoadingContext();
+  const { resetStep } = useStepContext();
+  const dispatch = useDispatch();
 
   return (
     <div className="App min-h-screen overflow-auto">
@@ -29,7 +35,12 @@ function App() {
       <div className="w-full mx-auto text-center my-10">
         <StyledButton
           text={`${loadForm ? "End tracking" : "Set up course tracking"} `}
-          onPress={() => setLoadForm((prev) => !prev)}
+          onPress={() => {
+            setLoadForm(prev => !prev);
+            resetStep();
+            dispatch(resetFormData());
+            dispatch(resetCourseAnalysis());
+          }}
           classes="mb-6"
         />
       </div>
