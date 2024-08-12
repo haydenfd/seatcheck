@@ -33,7 +33,7 @@ function App() {
           classes="mb-6"
         />
       </div>
-      <Form isVisible={loadForm} />
+      <Form isVisible={loadForm} setIsVisible={setLoadForm}/>
     </div>
   );
 }

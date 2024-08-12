@@ -5,8 +5,9 @@ import { StyledInput } from "@/components/ui/styled-input";
 import { mutatePersonalDetails } from "@/store/form-slice";
 import { useStepContext } from "@/context/stepcontext";
 import { StyledModal } from "@/components/ui/modal";
+import axios from "axios";
 
-export const Step3 = () => {
+export const Step3 = ({ setVisible }) => {
   const dispatch = useDispatch();
   const store_form = useSelector((state) => state.form);
 
@@ -43,7 +44,7 @@ export const Step3 = () => {
     return !isEmptyOrSpaces(name) && !isEmptyOrSpaces(email) && !isEmptyOrSpaces(confirmationEmail);
   }, [name, email, confirmationEmail]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const emailValid = isValidEmail(email);
 
     if (!emailValid) {
@@ -64,12 +65,20 @@ export const Step3 = () => {
 
       // send info to Lambda function to add to mongoDB instance
 
+      // console.log(`Form: ${JSON.stringify(store_form)}`);
+
+      const response = await axios.post(
+        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`, {
+          form: store_form,
+        })
+      console.log(response.data);
 
       // assume successful response
       setModalTitle("Success! You're all set");
       setModalBody(`Hey ${store_form.name}, your tracking for X course has been set up. You should have received a confirmation email from us(check spam, too). Thanks for using SeatCheck!`);
       setModalType("success");
       launchModal();
+      // setVisible(false);
 
     }
   };

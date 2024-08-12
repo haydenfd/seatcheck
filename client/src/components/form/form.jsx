@@ -12,7 +12,7 @@ const titles = [
   "Personal information",
 ];
 
-export const Form = ({ isVisible }) => {
+export const Form = ({ isVisible, setIsVisible }) => {
   const { step, stepsCompleted } = useStepContext();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Form = ({ isVisible }) => {
           <CardBody className="flex flex-col justify-center items-center p-0 mt-10">
             {step === 1 && <Step1 />}
             {step === 2 && <Step2 />}
-            {step === 3 && <Step3 />}
+            {step === 3 && <Step3 setVisible={setIsVisible}/>}
           </CardBody>
         </Card>
       </motion.div>

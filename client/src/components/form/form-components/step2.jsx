@@ -78,7 +78,7 @@ export const Step2 = () => {
           {store_course_analysis.status_text}
         </p>
         <p className="font-medium text-red-500">
-          {store_course_analysis.waitlist_text}
+          Waitlist: {store_course_analysis.waitlist_text}
         </p>
       </section>
 
