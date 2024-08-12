@@ -3,7 +3,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 
 export const Loader = ({ text, loading }) => {
   if (!loading) return null;
-  console.log("LOADDDD");
+
   return (
     <div className="absolute w-screen h-screen z-50 bg-black opacity-65 flex items-center justify-center">
       <div className="text-center relative bottom-10 w-3/5">

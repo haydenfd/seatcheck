@@ -45,6 +45,8 @@ export const Step1 = () => {
 
   const handleSubmit = async () => {
 
+    let validFlag = true;
+
     // first, check if the url is valid SOC URL. If not, error message.
     if (!isValidSocUrl(url)) {
       setUrlInputErrorMsg("This isn't a valid enrollment URL. Eg. ....");
@@ -68,6 +70,7 @@ export const Step1 = () => {
         setModalBody("The URL you've entered doesn't match the format of UCLA's Schedule Of Classes links. Your URL should match this format --- sa.ucla.edu.....");
         setModalType("error");
         launchModal();
+        validFlag = false;
       }
 
       else if (key === "term_cd" && FormUtils.tentativeTerms.includes(value)) {
@@ -75,6 +78,15 @@ export const Step1 = () => {
         setModalBody("The course you're trying to track is for a later quarter, the logistics of which is still tentative. Please enter a URL for a Summer 2024 or Fall 2024 class.");
         setModalType("error");
         launchModal();
+        validFlag = false;
+      }
+
+      else if (key === "term_cd" && !FormUtils.tentativeTerms.includes(value) && !FormUtils.validTerms.includes(value)) {
+        setModalTitle("Oops! Looks like this URL is for an old course");
+        setModalBody("The course you're trying to track can no longer be tracked as it is expired. Please enter a URL for a Summer 2024 or Fall 2024 class.");
+        setModalType("error");
+        launchModal();        
+        validFlag = false;
       }
     }
 
@@ -83,26 +95,41 @@ export const Step1 = () => {
       setModalBody("The URL you've entered doesn't have all the necessary information; I am unable to fetch the course. Your URL should match this format --- sa.ucla.edu.....");
       setModalType("error");
       launchModal();
+      validFlag = false;
     }
 
-    dispatch(
-      mutateCourseUrl({
-        course_url: url,
-      }),
-    );
+    if (validFlag) {
+      dispatch(
+        mutateCourseUrl({
+          course_url: url,
+        }),
+      );
+  
+      setToLoad();
+  
+      const encoded_uri = encodeURIComponent(url);
+  
+      const response = await axios.get(
+        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/url?url=${encoded_uri}`,
+      );
 
-    setToLoad();
+      setLoaded();
 
-    const encoded_uri = encodeURIComponent(url);
+      console.log(response.data);
+      if (response.data.can_track) {
+        dispatch(setCourseAnalysisData(response.data));
+        nextStep();
+      }
 
-    const response = await axios.get(
-      `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/url?url=${encoded_uri}`,
-    );
-    dispatch(setCourseAnalysisData(response.data));
+      else {
+        setModalTitle("Oops! Course cancelled by department");
+        setModalBody("The course you're trying to track has been cancelled by the department. You will need to track another class.");
+        setModalType("error");
+        launchModal();     
+      }
 
-    setLoaded();
 
-    nextStep();
+    }
   };
 
   return (
