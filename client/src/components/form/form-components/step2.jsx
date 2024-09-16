@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { StyledButton } from "@/components/ui/styled-button";
 import { useStepContext } from "@/context/stepcontext";
 import { useSelector, useDispatch } from "react-redux";
-// import { TrackingCheckboxes } from "@/components/ui/tracking-checkboxes";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { setTrackingPreferences } from "@/store/form-slice";
 
 const options = {
-  "notify-enrollment-status-change": "Notify me when enrollment status changes (Open --> Closed, Closed --> Open)",
-  "notify-waitlist-status-change": "Notify me when the waitlist status changes",
-  // "notify-less-than-three-seats-left":
-  //   "Notify me when the class hits 90% enrollment",
-  // "notify-less-than-three-waitlist-spots-left":
-  //   "Notify me when the waitlist reaches only has 3 spots left",
 
+    // "notify-seat-open": "Notify me when a seat opens up (Closed to Open OR Closed to Waitlist)",
+    "notify-all-seat-changes": "Notify me on all enrollment status changes (ex. Closed to Open, Open to Closed, Open to Waitlist)",
+    // "notify-waitlist-open": "Notify me when waitlist spot opens up (eg. Waitlist Full --> Waitlist Open)",
+    "notify-all-waitlist-changes": "Notify me on all waitlist status changes (Full --> Open and Open --> Full)",
 };
 
 export const Step2 = () => {
@@ -22,7 +19,9 @@ export const Step2 = () => {
   const store_course_analysis = useSelector((state) => state.courseAnalysis);
   const store_form = useSelector((state) => state.form);
 
-  const [optionsState, setOptionsState] = useState({});
+  const [optionsState, setOptionsState] = useState({
+    "notify-all-seat-changes": "Notify me on all enrollment status changes (ex. Closed to Open, Open to Closed, Open to Waitlist)",
+  });
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const addKeyValuePair = (key, value) => {
@@ -36,36 +35,26 @@ export const Step2 = () => {
       setSelectedOptions(store_form.tracking_preferences);
     }
 
-    if (store_course_analysis.status_code === 10) {
-      const key = "notify-less-than-three-seats-left";
-      const value = options[key];
-      addKeyValuePair(key, value);
+    // notify only when enrollment status changes from closed to open
+    // notify for all changes (closed -> open, open -> closed)
+    // notify only when waitlist spot opens up (full -> open)
+    // notify for all status changes on the waitlist (open -> full, full -> open)
+
+
+    const key2 = "notify-all-seat-changes";
+    const value2 = options[key2];
+    addKeyValuePair(key2, value2);  
+
+    if (store_course_analysis.status_code % 3 === 0) {
+      const key1 = "notify-all-waitlist-changes";
+      const value1 = options[key1];
+      addKeyValuePair(key1, value1);
     }
 
-    if (
-      store_course_analysis.status_code === 0 ||
-      store_course_analysis.status_code === 1
-    ) {
-      const key = "notify-seat-open";
-      const value = options[key];
-      addKeyValuePair(key, value);
-    }
-
-    if (store_course_analysis.waitlist_code === 0) {
-      const key = "notify-waitlist-spot-open";
-      const value = options[key];
-      addKeyValuePair(key, value);
-    }
-
-    if (store_course_analysis.waitlist_code === 2) {
-      const key = "notify-less-than-three-waitlist-spots-left";
-      const value = options[key];
-      addKeyValuePair(key, value);
-    }
   }, []);
 
   return (
-    <div className="flex flex-col gap-8 w-full">
+    <div className="flex flex-col gap-8 w-full ">
       <section className="text-center w-full">
         <h3 className="text-2xl font-bold underline mb-4">
           {store_course_analysis.term_display}
@@ -74,9 +63,13 @@ export const Step2 = () => {
           {store_course_analysis.subject_class},{" "}
           {store_course_analysis.section_title}
         </h3>
-        <p className="text-xl font-bold">
-          {store_course_analysis.instructors[0]} 
-        </p>
+
+          {store_course_analysis.instructors.map((item, idx) => (
+            <p key={idx}>
+              {item}
+            </p>
+          ))} 
+   
         <p className="font-medium text-green-500">
           Class status: {store_course_analysis.status_text}
         </p>
@@ -92,7 +85,11 @@ export const Step2 = () => {
           onValueChange={setSelectedOptions}
         >
           {Object.keys(optionsState).map((key) => (
-            <Checkbox value={key} key={key}>
+            <Checkbox value={key} key={key} classNames={
+              {
+                label: "text-sm"
+              }
+            }>
               {options[key]}
             </Checkbox>
           ))}

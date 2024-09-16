@@ -7,6 +7,7 @@ import { useStepContext } from "@/context/stepcontext";
 import { StyledModal } from "@/components/ui/modal";
 import axios from "axios";
 
+
 export const Step3 = ({ setVisible }) => {
 
   const dispatch = useDispatch();
@@ -62,17 +63,22 @@ export const Step3 = ({ setVisible }) => {
         email: email,
       };
 
+      console.log(name, email);
       dispatch(mutatePersonalDetails(personalDetailsPayload));
 
       // send info to Lambda function to add to mongoDB instance
-
-      // console.log(`Form: ${JSON.stringify(store_form)}`);
+      console.log(store_form);
+      const body = {
+        form: store_form,
+        course_analysis: store_course_analysis,
+        name: name,
+        email: email,
+    };
+    console.log(body);
       const response = await axios.post(
-        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`, {
-            form: store_form,
-            course_analysis: store_course_analysis,
-        });
+        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`, body);
 
+      
       console.log(response.data);
 
       // assume successful response

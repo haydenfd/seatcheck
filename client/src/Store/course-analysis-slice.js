@@ -6,7 +6,6 @@ const initialState = {
   status_text: "",
   status_code: null,
   waitlist_text: "",
-  waitlist_code: null,
   instructors: [],
   final_date: "",
   is_offering_in_future: false,

@@ -116,17 +116,26 @@ export const Step1 = () => {
       setLoaded();
 
       console.log(response.data);
+
       if (response.data.can_track) {
         dispatch(setCourseAnalysisData(response.data));
         nextStep();
       }
 
       else {
-        setModalTitle("Oops! Course cancelled by department");
-        setModalBody("The course you're trying to track has been cancelled by the department. You will need to track another class.");
-        setModalType("error");
-        launchModal();     
-      }
+        if (response.data.status_code === 500) {
+
+          setModalTitle("Uh oh! This class has been closed");
+          setModalBody("The course you're trying to track has been closed by the department; please choose another offering to track.");
+          setModalType("error");
+          launchModal();     
+        } else {
+          setModalTitle("Uh oh! This class has been cancelled");
+          setModalBody("The course you're trying to track has been cancelled by the department; please choose another offering to track.");
+          setModalType("error");
+          launchModal();              
+        }
+      } 
 
 
     }

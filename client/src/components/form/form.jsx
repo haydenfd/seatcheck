@@ -37,7 +37,7 @@ export const Form = ({ isVisible, setIsVisible }) => {
             <h1>Step {step}: {titles[step - 1]}</h1>
           </CardHeader>
           <Divider />
-          <CardBody className="flex flex-col justify-center items-center p-0 mt-10">
+          <CardBody className="flex flex-col justify-center p-0 mt-4">
             {step === 1 && <Step1 />}
             {step === 2 && <Step2 />}
             {step === 3 && <Step3 setVisible={setIsVisible}/>}

@@ -22,7 +22,7 @@ export const formSlice = createSlice({
     },
     setTrackingPreferences: (state, action) => {
       state.tracking_preferences = action.payload.selected_options;
-      // console.log(`Preferences ${state.tracking_preferences}`);
+      console.log(`Preferences ${state.tracking_preferences}`);
     },
     resetFormData: () => {
       return initialFormState;

@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), commonjs()],
   server: {
-    port: 3000,
+    port: 6000,
   },
   resolve: {
     alias: {
