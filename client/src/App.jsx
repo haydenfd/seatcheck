@@ -1,19 +1,27 @@
 import "@/App.css";
 import React, { useState } from "react";
-import { Guide } from "@/components/guide/guide";
-import { Form } from "@/components/form/form";
+
+import { useDispatch } from "react-redux";
+
+import { Loader } from "./components/ui/loader";
 import { StyledButton } from "./components/ui/styled-button";
 import { useLoadingContext } from "./context/loadingcontext";
-import { Loader } from "./components/ui/loader";
 import { useStepContext } from "./context/stepcontext";
-import { useDispatch } from "react-redux";
-import { resetFormData } from "./store/form-slice";
 import { resetCourseAnalysis } from "./store/course-analysis-slice";
+import { resetFormData } from "./store/form-slice";
+
+import { Form } from "@/components/form/form";
+import { Guide } from "@/components/guide/guide";
 
 function App() {
   const [loadForm, setLoadForm] = useState(false);
   const { isLoading } = useLoadingContext();
   const { resetStep } = useStepContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const dispatch = useDispatch();
 
   return (

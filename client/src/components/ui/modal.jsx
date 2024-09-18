@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 
 export const StyledModal = ({ isOpen, onOpenChange, type, title, body }) => {

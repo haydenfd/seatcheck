@@ -1,50 +1,45 @@
 import React, { useState, useMemo } from "react";
+
+import axios from "axios";
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+
+import { StyledModal } from "@/components/ui/modal";
 import { StyledButton } from "@/components/ui/styled-button";
 import { StyledInput } from "@/components/ui/styled-input";
-import { mutatePersonalDetails } from "@/store/form-slice";
 import { useStepContext } from "@/context/stepcontext";
-import { StyledModal } from "@/components/ui/modal";
-import axios from "axios";
-
+import { mutatePersonalDetails } from "@/store/form-slice";
+import {
+  isValidEmail,
+  isStringEmptyOrSpaces,
+  emailMatchesConfirmationEmail,
+} from "@/utils/form-validator";
 
 export const Step3 = ({ setVisible }) => {
-
   const dispatch = useDispatch();
   const store_form = useSelector((state) => state.form);
   const store_course_analysis = useSelector((state) => state.courseAnalysis);
 
-  const { prevStep } = useStepContext();
+  const { prevStep, direction } = useStepContext();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [confirmationEmail, setConfirmationEmail] = useState("");
-
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
-
-  const launchModal = () => setModalOpen(true);
-
-
-
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const isValidEmail = (_email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(_email);
-  };
-
-  const doesConfirmationEmailMatch = () => email.trim() === confirmationEmail.trim();
-
-  function isEmptyOrSpaces(str) {
-    return str === "" || str.match(/^ *$/) !== null;
-  }
-
   const canUserSubmit = useMemo(() => {
-    return !isEmptyOrSpaces(name) && !isEmptyOrSpaces(email) && !isEmptyOrSpaces(confirmationEmail);
+    return (
+      !isStringEmptyOrSpaces(name) &&
+      !isStringEmptyOrSpaces(email) &&
+      !isStringEmptyOrSpaces(confirmationEmail)
+    );
   }, [name, email, confirmationEmail]);
+
+  const launchModal = () => setModalOpen(true);
 
   const handleSubmit = async () => {
     const emailValid = isValidEmail(email);
@@ -52,56 +47,78 @@ export const Step3 = ({ setVisible }) => {
     if (!emailValid) {
       setIsEmailValid(false);
       setEmail("");
-    } else if (!doesConfirmationEmailMatch()) {
+    } else if (!emailMatchesConfirmationEmail(email, confirmationEmail)) {
       setConfirmationEmail("");
-      // may need state for is valid here...
-    } 
-    else {
+    } else {
       setIsEmailValid(true);
       const personalDetailsPayload = {
         name: name,
         email: email,
       };
 
-      console.log(name, email);
       dispatch(mutatePersonalDetails(personalDetailsPayload));
 
-      // send info to Lambda function to add to mongoDB instance
-      console.log(store_form);
       const body = {
         form: store_form,
         course_analysis: store_course_analysis,
         name: name,
         email: email,
-    };
-    console.log(body);
+      };
+
       const response = await axios.post(
-        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`, body);
+        `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`,
+        body
+      );
 
-      
-      console.log(response.data);
-
-      // assume successful response
       setModalTitle("Success! You're all set");
-      setModalBody(`Hey ${name}, your tracking for X course has been set up. You should have received a confirmation email from us (check spam, too). Thanks for using SeatCheck!`);
+      setModalBody(
+        `Hey ${name}, your tracking for X course has been set up. You should have received a confirmation email from us (check spam, too). Thanks for using SeatCheck!`
+      );
       setModalType("success");
       launchModal();
-      // setVisible(false);
-
+      setVisible(false);
     }
   };
 
+  // Define the motion variants for sliding between steps
+  const slideInVariants = {
+    initial: (direction) => ({
+      x: direction === "next" ? 1000 : -1000, // Slide from right when moving forward
+      opacity: 0,
+    }),
+    animate: { x: 0, opacity: 1 }, // Slide into place
+    exit: (direction) => ({
+      x: direction === "next" ? -1000 : 1000, // Slide to left when going back
+      opacity: 0,
+    }),
+  };
+
   return (
-    <div className="flex flex-col gap-4 w-full">
-        <StyledModal
-          isOpen={modalOpen}
-          onOpenChange={setModalOpen}
-          title={modalTitle}
-          body={modalBody}
-          type={modalType}
-      />
-      <p className="w-3/4 mx-auto text-md font-medium text-center">You must fill out all the fields to submit the form</p>
-      <div className="w-3/4 mx-auto">
+    
+    <>
+       {/*
+       </><motion.div
+      key="step3"
+      custom={direction}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={slideInVariants}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col gap-4 overflow-hidden" 
+    >
+    */}
+    <StyledModal
+        isOpen={modalOpen}
+        onOpenChange={setModalOpen}
+        title={modalTitle}
+        body={modalBody}
+        type={modalType}
+      /> 
+      <p className="w-3/4 mx-auto text-md font-medium text-center overflow-hidden">
+        You must fill out all the fields to submit the form
+      </p>
+      <div className="w-3/4 mx-auto overflow-hidden">
         <StyledInput
           label="Enter your name"
           placeholder="Joe Bruin"
@@ -123,24 +140,10 @@ export const Step3 = ({ setVisible }) => {
           placeholder="skobru@ucla.edu"
           inputState={confirmationEmail}
           setInputState={setConfirmationEmail}
-          isInvalid={!doesConfirmationEmailMatch}
+          isInvalid={!emailMatchesConfirmationEmail(email, confirmationEmail)}
           isClearable={true}
         />
       </div>
-      <div>
-        <StyledButton
-          onPress={prevStep}
-          isButtonDisabled={false}
-          text="Previous"
-          classes="w-1/2 flex-1"
-        />
-        <StyledButton
-          onPress={handleSubmit}
-          isButtonDisabled={!canUserSubmit}
-          text="Submit"
-          classes="w-1/2 flex-1"
-        />
-      </div>
-    </div>
+      </>
   );
 };
