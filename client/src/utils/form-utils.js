@@ -1,4 +1,4 @@
-const validTerms = ["241", "24F"];
+const validTerms = ["24F"];
 const tentativeTerms = ["25W", "25S"];
 const requiredURLParams = [
   "term_cd",

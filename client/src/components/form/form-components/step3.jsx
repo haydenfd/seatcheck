@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -31,6 +31,49 @@ export const Step3 = ({ setVisible }) => {
   const [modalTitle, setModalTitle] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
 
+  useEffect(() => {
+    console.log(store_form)
+    if (store_form.name !== '') {
+      // setName(name);
+      console.log(`name is ${store_form.name}`)
+      setName(store_form.name);
+    }
+
+    if (store_form.email !== '') {
+      setEmail(store_form.email);
+    }
+
+    if (store_form.confirmation_email !== '') {
+      setConfirmationEmail(store_form.confirmation_email);
+    }
+
+    // if (store_form.confirmation_email !== '') {
+    //   setConfirmationEmail(store_form.confirmation_email);
+    // }
+  }, [])
+
+
+  const handlePrev = () => {
+
+    const reduxSave = {};
+
+    if (name !== "") {
+      reduxSave['name'] = name;
+    }
+
+    if (email !== "") {
+      reduxSave['email'] = email;
+    }
+
+    if (confirmationEmail !== "") {
+      reduxSave['confirmation_email'] = confirmationEmail
+    }
+
+    dispatch(mutatePersonalDetails(reduxSave))
+    prevStep();
+  }
+
+
   const canUserSubmit = useMemo(() => {
     return (
       !isStringEmptyOrSpaces(name) &&
@@ -41,6 +84,7 @@ export const Step3 = ({ setVisible }) => {
 
   const launchModal = () => setModalOpen(true);
 
+ 
   const handleSubmit = async () => {
     const emailValid = isValidEmail(email);
 
@@ -140,9 +184,13 @@ export const Step3 = ({ setVisible }) => {
           placeholder="skobru@ucla.edu"
           inputState={confirmationEmail}
           setInputState={setConfirmationEmail}
-          isInvalid={!emailMatchesConfirmationEmail(email, confirmationEmail)}
+          // isInvalid={!emailMatchesConfirmationEmail(email, confirmationEmail)}
           isClearable={true}
         />
+      </div>
+      <div className="ml-auto my-6">
+            <StyledButton text="Prev" onPress={handlePrev} classes="mr-6"/>
+            <StyledButton text="Submit" onPress={handleSubmit}/>
       </div>
       </>
   );

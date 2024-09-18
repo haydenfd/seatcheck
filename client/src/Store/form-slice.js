@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialFormState = {
   name: "",
   email: "",
+  confirmation_email: "",
   course_url: "",
   tracking_preferences: [],
 };
@@ -14,7 +15,8 @@ export const formSlice = createSlice({
     mutatePersonalDetails: (state, action) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
-      // console.log(state.name, state.email);
+      state.confirmation_email = action.payload.confirmation_email;
+      console.log(state);
     },
     mutateCourseUrl: (state, action) => {
       state.course_url = action.payload.course_url;

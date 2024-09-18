@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,9 +38,9 @@ export const Form = ({ isVisible, setIsVisible }) => {
           exit="exit" 
           variants={slideInVariants}
           transition={{ duration: 0.5 }}
-          className="overflow-hidden min-h-fit"
+          className="overflow-hidden"
         >
-          <Card className="w-1/2 text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0">
+          <Card className="w-1/2 text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0 h-full">
             <CardHeader className="flex justify-center items-center text-center font-bold text-xl rounded-none bg-ucla-blue text-ucla-gold">
               <h1>
                 Step {step}: {titles[step - 1]}
@@ -49,13 +49,9 @@ export const Form = ({ isVisible, setIsVisible }) => {
             <Divider />
             <CardBody className="flex flex-col justify-center p-0 mt-4 w-2/3 mx-auto">
               {step === 1 && <Step1 />}
-              {step === 2 && <Step2 />}
-              {step === 3 && <Step3 setVisible={setIsVisible} />}
+              {step === 2 && <Step2/>}
+              {step === 3 && <Step3 setVisible={setIsVisible}/>}
             </CardBody>
-          <div className="ml-auto pr-10 my-6">
-            <StyledButton text="Previous" onPress={prevStep} classes="mr-10"/>
-            <StyledButton text={step === 3? "Submit" : "Next"} onPress={nextStep}/>
-          </div>
           </Card>
         </motion.div>
       )}

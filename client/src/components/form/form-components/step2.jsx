@@ -94,6 +94,11 @@ export const Step2 = () => {
             ))}
           </CheckboxGroup>
         </section>
+
+        <div className="ml-auto my-6">
+            <StyledButton text="Prev" onPress={prevStep} classes="mr-6"/>
+            <StyledButton text="Next" onPress={nextStep}/>
+        </div>
       </div>
   );
 };
