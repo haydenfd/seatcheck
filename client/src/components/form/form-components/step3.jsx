@@ -73,14 +73,22 @@ export const Step3 = ({ setVisible }) => {
     prevStep();
   }
 
-
   const canUserSubmit = useMemo(() => {
     return (
       !isStringEmptyOrSpaces(name) &&
       !isStringEmptyOrSpaces(email) &&
-      !isStringEmptyOrSpaces(confirmationEmail)
-    );
-  }, [name, email, confirmationEmail]);
+      !isStringEmptyOrSpaces(confirmationEmail) && 
+      isValidEmail(email)
+    )
+  }, [name, email, confirmationEmail])
+
+  // const canUserSubmit = useMemo(() => {
+  //   return (
+  //     !isStringEmptyOrSpaces(name) &&
+  //     !isStringEmptyOrSpaces(email) &&
+  //     !isStringEmptyOrSpaces(confirmationEmail)
+  //   );
+  // }, [name, email, confirmationEmail]);
 
   const launchModal = () => setModalOpen(true);
 

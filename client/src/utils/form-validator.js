@@ -46,7 +46,7 @@ const isValidEmail = (param_email) => {
   };
 
 const isStringEmptyOrSpaces = (param_string) => {
-    return param_string === "" || param_string.match(/^ *$/) !== null;
+    return param_string.trim() === "";
 }
 
 const emailMatchesConfirmationEmail = (email, confirmation_email) => {
