@@ -22,9 +22,9 @@ export const Step3 = ({ setVisible }) => {
 
   const { prevStep, direction } = useStepContext();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [confirmationEmail, setConfirmationEmail] = useState("");
+  const [name, setName] = useState("hayden");
+  const [email, setEmail] = useState("haydenfds@gmail.com");
+  const [confirmationEmail, setConfirmationEmail] = useState("haydenfds@gmail.com");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [modalBody, setModalBody] = useState("");
@@ -47,9 +47,7 @@ export const Step3 = ({ setVisible }) => {
       setConfirmationEmail(store_form.confirmation_email);
     }
 
-    // if (store_form.confirmation_email !== '') {
-    //   setConfirmationEmail(store_form.confirmation_email);
-    // }
+
   }, [])
 
 
@@ -58,16 +56,18 @@ export const Step3 = ({ setVisible }) => {
     const reduxSave = {};
 
     if (name !== "") {
-      reduxSave['name'] = name;
+      reduxSave['name'] = name || "";
     }
 
     if (email !== "") {
-      reduxSave['email'] = email;
+      reduxSave['email'] = email || "";
     }
 
     if (confirmationEmail !== "") {
-      reduxSave['confirmation_email'] = confirmationEmail
+      reduxSave['confirmation_email'] = confirmationEmail || "";
     }
+
+    console.log(reduxSave);
 
     dispatch(mutatePersonalDetails(reduxSave))
     prevStep();
@@ -77,21 +77,12 @@ export const Step3 = ({ setVisible }) => {
     return (
       !isStringEmptyOrSpaces(name) &&
       !isStringEmptyOrSpaces(email) &&
-      !isStringEmptyOrSpaces(confirmationEmail) && 
-      isValidEmail(email)
+      isValidEmail(email) && 
+      emailMatchesConfirmationEmail(email, confirmationEmail)
     )
   }, [name, email, confirmationEmail])
 
-  // const canUserSubmit = useMemo(() => {
-  //   return (
-  //     !isStringEmptyOrSpaces(name) &&
-  //     !isStringEmptyOrSpaces(email) &&
-  //     !isStringEmptyOrSpaces(confirmationEmail)
-  //   );
-  // }, [name, email, confirmationEmail]);
-
   const launchModal = () => setModalOpen(true);
-
  
   const handleSubmit = async () => {
     const emailValid = isValidEmail(email);
@@ -115,12 +106,17 @@ export const Step3 = ({ setVisible }) => {
         course_analysis: store_course_analysis,
         name: name,
         email: email,
+        date: Date.now().toString(36),
       };
 
+      console.log(body);
       const response = await axios.post(
         `https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/tracking`,
         body
       );
+
+      const data = response.data;
+      console.log(data);
 
       setModalTitle("Success! You're all set");
       setModalBody(
@@ -168,9 +164,9 @@ export const Step3 = ({ setVisible }) => {
         type={modalType}
       /> 
       <p className="w-3/4 mx-auto text-md font-medium text-center overflow-hidden">
-        You must fill out all the fields to submit the form
+        Please fill out all fields!
       </p>
-      <div className="w-3/4 mx-auto overflow-hidden">
+      <div className="w-3/4 mx-auto overflow-hidden mt-8">
         <StyledInput
           label="Enter your name"
           placeholder="Joe Bruin"
@@ -197,8 +193,8 @@ export const Step3 = ({ setVisible }) => {
         />
       </div>
       <div className="ml-auto my-6">
-            <StyledButton text="Prev" onPress={handlePrev} classes="mr-6"/>
-            <StyledButton text="Submit" onPress={handleSubmit}/>
+            <StyledButton text="Previous" onPress={handlePrev} classes="mr-6"/>
+            <StyledButton text="Submit" onPress={handleSubmit} isButtonDisabled={!canUserSubmit}/>
       </div>
       </>
   );

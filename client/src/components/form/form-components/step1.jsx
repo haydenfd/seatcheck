@@ -19,7 +19,7 @@ export const Step1 = () => {
   const course_url = useSelector((state) => state.form.course_url);
 
   const dispatch = useDispatch();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0001%20%20%20%20&class_id=187003200&class_no=%20001%20%20");
 
   useEffect(() => {
     if (course_url !== "") {
@@ -36,28 +36,34 @@ export const Step1 = () => {
       url: encoded_url
     });
     
-    setToLoad();
-    const response = (await axios.get(endpoint).catch(function (error) {
-      if (error.response) {
-        setLoaded();
-        console.log('failed');
-      }
-    }));
-
-    if (response.status) {
-      setLoaded();
-      dispatch(
-        mutateCourseUrl({
-          course_url: url
-        }))
-    }
-
-    console.log(response.data);
-    if (response.status === 200) {
+    if (url === course_url) {
       nextStep();
-    } else {
-     console.log('Response was not 200'); 
     }
+    else {
+      
+      setToLoad();
+      const response = (await axios.get(endpoint).catch(function (error) {
+        if (error.response) {
+          setLoaded();
+          console.log('failed');
+        }
+      }));
+      
+      if (response.status) {
+        setLoaded();
+        dispatch(
+          mutateCourseUrl({
+            course_url: url
+          }))
+        }
+        
+        console.log(response.data);
+        if (response.status === 200) {
+          nextStep();
+        } else {
+          console.log('Response was not 200'); 
+        }
+      }
   }
   
   const slideInVariants = {
