@@ -7,8 +7,6 @@ const initialState = {
   status_code: null,
   waitlist_text: "",
   instructors: [],
-  final_date: "",
-  is_offering_in_future: false,
   days: "",
   time: "",
   section_title: "",
@@ -19,7 +17,7 @@ export const courseAnalysisSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCourseAnalysisData: (state, action) => {
-      // console.log(action.payload);
+      console.log(action.payload);
       return { ...state, ...action.payload };
     },
     resetCourseAnalysis: () => {

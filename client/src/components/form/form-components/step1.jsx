@@ -10,6 +10,7 @@ import { StyledButton } from "@/components/ui/styled-button";
 import { StyledInput } from "@/components/ui/styled-input";
 import { useLoadingContext } from "@/context/loadingcontext";
 import { useStepContext } from "@/context/stepcontext";
+import {setCourseAnalysisData} from '@/store/course-analysis-slice';
 import { mutateCourseUrl } from "@/store/form-slice";
 import { isValidCourseUrl } from '@/utils/form-validator';
 
@@ -29,7 +30,7 @@ export const Step1 = () => {
 
   const handleNext = async () => {
 
-    console.log(`This url is ${isValidCourseUrl(url)}`);
+    // console.log(`This url is ${isValidCourseUrl(url)}`);
 
     const encoded_url = encodeURIComponent(url);
     const endpoint = getApiEndpoint("course",{
@@ -55,10 +56,12 @@ export const Step1 = () => {
           mutateCourseUrl({
             course_url: url
           }))
+
         }
         
         console.log(response.data);
         if (response.status === 200) {
+          dispatch(setCourseAnalysisData(response.data));
           nextStep();
         } else {
           console.log('Response was not 200'); 
