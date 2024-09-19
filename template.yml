@@ -31,6 +31,12 @@ Resources:
       CodeUri: add_tracking_lambda/
       MemorySize: 3000
       Timeout: 45
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action: lambda:InvokeFunction
+              Resource: arn:aws:lambda:us-west-1:730335673618:function:SendUserConfirmationEmailLambdaFunction    
       Environment:
         Variables:
           MONGO_USER: "haydenfds"

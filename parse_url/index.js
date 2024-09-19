@@ -1,9 +1,7 @@
 const chromium = require('@sparticuz/chromium');
 const puppeteer = require('puppeteer-core');
-const prettier = require('prettier');
 const cheerio = require('cheerio');
 
-const validTerms = ["Fall 2024", "Winter 2025", "Summer 2024"];
 
 function hasExamDatePassed(date_str) {
 
@@ -31,30 +29,15 @@ function hasExamDatePassed(date_str) {
     return result;
 }
 
-function isTermValid(term_text, exam_date) {
-
-    const has_exam_date_passed_result = hasExamDatePassed(exam_date);
-
-    if (has_exam_date_passed_result === 10) {
-        return false;
-    }
 
 
-    else {
-        if (validTerms.includes(term_text)) {
-            return true;
-        } 
-    }
-
-    return false; 
-}
 
 function reduceStatuses(status_text, waitlist_text) {
   const cancelled_substring = "Cancelled"; // -1
-  const closed_class_full_substring = "Closed: Class Full"; // 1x -> No WL = 10; WL Full = 11
-  const open_class_substring = "Open"; // 1xx -> No WL = 100; WL full = 101; WL open (x of y taken) = 102
-  const waitlist_class_full_substring = "Waitlist: Class Full"; // 2xx -> WL open = 202
   const closed_by_dept_substring = "Closed by Dept"; // 5xx -> always 500 regardless
+  const closed_class_full_substring = "Closed: Class Full"; // 1x -> No WL = 11; WL Full = 12
+  const open_class_substring = "Open"; // 1xx -> No WL = 101; WL full = 102; WL open (x of y taken) = 105
+  const waitlist_class_full_substring = "Waitlist: Class Full"; // 2xx -> WL open = 205
   const no_waitlist_substring = "No Waitlist";
   const waitlist_full_substring = "Waitlist Full";
 
@@ -69,15 +52,15 @@ function reduceStatuses(status_text, waitlist_text) {
   else if (status_text.includes(closed_class_full_substring)) {
 
     if (waitlist_text.includes(no_waitlist_substring)) {
-      return 10;
-    }
-
-    else if (waitlist_text.includes(waitlist_full_substring)) {
       return 11;
     }
 
+    else if (waitlist_text.includes(waitlist_full_substring)) {
+      return 12;
+    }
+
     else {
-      return 12; // class closed, waitlist open. Should not happen, though. 
+      return 15; // class closed, waitlist open. Should not happen, though. 
     }
 
   }
@@ -86,92 +69,22 @@ function reduceStatuses(status_text, waitlist_text) {
   else if (status_text.includes(open_class_substring)) {
 
     if (waitlist_text.includes(no_waitlist_substring)) {
-      return 100;
-    }
-
-    if (waitlist_text.includes(waitlist_full_substring)) {
       return 101;
     }
 
+    if (waitlist_text.includes(waitlist_full_substring)) {
+      return 102; // WL full, class open. Should rarely happen, if ever.
+    }
+
     else {
-      return 102;
+      return 105; // WL open
     }
   }
 
   else if (status_text.includes(waitlist_class_full_substring)) {
-    return 202;
+    return 204;
   }
 
-
-
-
-}
-
-function statusReducer(status_text) {
-    // -2 => class closed by dept
-    // -1 => cancelled
-    // 0 => class full (doesn't mean perma-closed)
-    // 1 => waitlist (class not full, get on waitlist)
-    // 10 => open
-    // 100 => tentative
-    let status_code;
-    const closed_by_substring = "Closed by Dept";
-    const cancelled_substring = "Cancelled";
-    const closed_full_substring = "Closed: Class Full";
-    const waitlist_substring = "Waitlist: Class Full";
-    const tentative_substring = "Tentative";
-
-    if (status_text.includes(closed_by_substring)) {
-        status_code = -2;
-    }
-
-    else if (status_text.includes(cancelled_substring)) {
-        status_code = -1;
-    }
-
-
-    else if (status_text.includes(closed_full_substring)) {
-        status_code = 0;
-    }
-
-    else if (status_text.includes(waitlist_substring)) {
-        status_code = 1;
-    }
-
-    else if (status_text.includes(tentative_substring)) {
-        status_code = 100;
-    }
-
-    else {
-        status_code = 10;
-    }
-
-    return status_code;
-}
-
-function waitlistReducer(waitlist_status_text) {
-    // -2 => no waitlist offered
-    // 0 => waitlist full
-    // 2 => waitlist open
-    const no_waitlist_substring = "No Waitlist";
-    const waitlist_full_substring = "Waitlist Full";
-
-
-    let waitlist_status_code;
-
-    if (waitlist_status_text.includes(no_waitlist_substring)) {
-        waitlist_status_code = -2;
-    }
-
-    else if (waitlist_status_text.includes(waitlist_full_substring)) {
-        waitlist_status_code = 0;
-    }
-
-    else {
-        waitlist_status_code = 2;
-    }
-
-    return waitlist_status_code;
 }
 
 function extractCourseCode(inputString) {
@@ -229,9 +142,8 @@ exports.handler = async (event, context) => {
     const regex = /:(.*)/;
     const match = sectionTitle.match(regex);   
     const parsedSectionTitle = match[1].trim();
-    // const classIdTextbook = $('#class_id_textbook p').map((i, el) => $(el).text().trim()).get().join(' ');
     const status = $('tr.enrl_mtng_info td:first-child').text().trim();
-    console.log(status);
+
     const waitlistStatus = $('tr.enrl_mtng_info td:nth-child(2)').text().trim();
     const meetingDays = $('tr.enrl_mtng_info td:nth-child(3) button.popover-right').text().trim();
     const meetingTime = $('tr.enrl_mtng_info td').eq(3).text().trim();
@@ -248,14 +160,16 @@ exports.handler = async (event, context) => {
         }
     });    
     const finalDate = $('tr.final_exam_info td:first-child').text().trim();
-    const statusCode = statusReducer(status);
 
-    console.log(status);
-    if (statusCode === -2) {
+    const course_status = reduceStatuses(status, waitlistStatus);
+
+    if (course_status === -1) {
       const responseData = {
         can_track: false,
-        status_code: -2
-      }
+        status_code: -1,  
+        status_text: "Cancelled",
+      };
+
       return {
         statusCode: 200,
         headers: {
@@ -264,35 +178,49 @@ exports.handler = async (event, context) => {
         isBase64Encoded: false, 
         body: JSON.stringify(responseData),
       }
+    } else if (course_status === 500) {
+      const responseData = {
+        can_track: false,
+        status_code: 500,  
+        status_text: "Closed by Dept",
+      };
+
+      return {
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+          },           
+        isBase64Encoded: false, 
+        body: JSON.stringify(responseData),
+      }      
     }
+    
+    else {
+  
+      const responseData = {
+        can_track: true,
+        term_display: termDisplay,
+        subject_class: extractCourseCode(subjectClass),
+        section_title: parsedSectionTitle,
+        status_text: status,
+        waitlist_text: waitlistStatus,
+        instructors: instructors,
+        days: meetingDays,
+        time: meetingTime,
+        status_code: reduceStatuses(status, waitlistStatus),
+  
+      };
+  
+      return {
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+          },           
+        isBase64Encoded: false, 
+        body: JSON.stringify(responseData),
+    };  
 
-    const responseData = {
-      can_track: true,
-      term_display: termDisplay,
-      subject_class: extractCourseCode(subjectClass),
-      status_text: status,
-      status_code: statusCode,
-      waitlist_text: waitlistStatus,
-      waitlist_code: waitlistReducer(waitlistStatus),
-      instructors: instructors,
-      final_date: finalDate,
-      is_offering_in_future: isTermValid(termDisplay, finalDate),
-      days: meetingDays,
-      time: meetingTime,
-      section_title: parsedSectionTitle,
-      code: reduceStatuses(status, waitlistStatus),
-
-    };
-    // console.log(shadowRootHTML)
-
-    return {
-      statusCode: 200,
-      headers: {
-          "Access-Control-Allow-Origin": "*"
-        },           
-      isBase64Encoded: false, 
-      body: JSON.stringify(responseData),
-  };  
+    }
 
 
   } catch (error) {

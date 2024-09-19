@@ -1,7 +1,9 @@
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import os
+from email_validator import validate_email_domain
+from confirmation_email_body import generate_confirmation_email_body
 
 HOST = os.environ.get('EMAIL_HOST')
 PORT = os.environ.get('EMAIL_PORT')
@@ -13,21 +15,23 @@ def main(event, context):
     rcv_email = event['user_email']
     rcv_name = event['user_name']
     email_type = event['email_type']
-    course = event['course']
+    # course = event['course']
     
+    if not validate_email_domain(rcv_email):
+        return {
+            "statusCode": 404,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+            },
+            "body": "Email domain not found"
+        }
     msg = MIMEMultipart()
     msg['From'] = SENDER_EMAIL
     msg['To'] = rcv_email
 
     if email_type == "Confirmation": 
         msg['Subject'] = f"[SEATCHECK] Confirmation: Tracking set up!"
-        msg_body = f"""
-        <html>
-            <body>
-                <p>Hey <strong>{rcv_name}</strong>, we just set up course tracking for your course. Thanks for using Seatcheck!</p>
-            </body>
-        </html>
-        """
+        msg_body = generate_confirmation_email_body(rcv_name=rcv_name)
 
     msg.attach(MIMEText(msg_body, 'html'))
     
@@ -43,6 +47,7 @@ def main(event, context):
             "headers": {
                 "Access-Control-Allow-Origin": "*",
             },
+            "body": "Success"
         }
             
     except smtplib.SMTPConnectError:
@@ -58,5 +63,5 @@ def main(event, context):
             "headers": {
                 "Access-Control-Allow-Origin": "*",
             },
-            "message": error_msg
+            "body": "Fail"
         }
