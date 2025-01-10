@@ -34,9 +34,9 @@ function App() {
         />
       )}
       <div className="mt-4 pt-2 mx-auto w-full text-center">
-        <h1 className="text-4xl font-bold">Seatcheck @ UCLA</h1>
-        <h2 className="text-2xl mt-2 underline font-medium">
-          Get notified when a class space opens up
+        <h1 className="text-4xl font-extrabold font-open uppercase leading-relaxed">Seatcheck @ UCLA</h1>
+        <h2 className="text-2xl underline font-semibold font-open ">
+          Get notified when a class space opens
         </h2>
       </div>
       <Guide />

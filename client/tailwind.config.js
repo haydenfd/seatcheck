@@ -20,6 +20,10 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      'open': ['Open Sans'],
+      'sans': ['Inter']
+    },
     extend: {
       keyframes: {
         "accordion-down": {

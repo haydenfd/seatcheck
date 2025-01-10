@@ -24,9 +24,9 @@ export const Form = ({ isVisible, setIsVisible }) => {
   }, []);
 
   const slideInVariants = {
-    hidden: { y: "100%", opacity: 0 }, // Start from below the screen
-    visible: { y: 0, opacity: 1 },     // Animate to its normal position
-    exit: { y: "100%", opacity: 0 }    // Exit by sliding back down
+    hidden: { x: "60%", opacity: 0 }, // Start from below the screen
+    visible: { x: 0, opacity: 1 },     // Animate to its normal position
+    exit: { x: "60%", opacity: 0 }    // Exit by sliding back down
   };
 
   return (
@@ -36,9 +36,9 @@ export const Form = ({ isVisible, setIsVisible }) => {
           initial="hidden"
           animate="visible"
           exit="exit" 
-          variants={slideInVariants}
-          transition={{ duration: 0.5 }}
-          className="overflow-hidden"
+          // variants={slideInVariants}
+          // transition={{ duration: 0.5 }}
+          // className="overflow-hidden"
         >
           <Card className="w-1/2 text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0 h-full">
             <CardHeader className="flex justify-center items-center text-center font-bold text-xl rounded-none bg-ucla-blue text-ucla-gold">
@@ -49,8 +49,8 @@ export const Form = ({ isVisible, setIsVisible }) => {
             <Divider />
             <CardBody className="flex flex-col justify-center p-0 mt-4 w-2/3 mx-auto">
               {step === 1 && <Step1 />}
-              {step === 2 && <Step2/>}
-              {step === 3 && <Step3 setVisible={setIsVisible}/>}
+              {step === 3 && <Step2/>}
+              {step === 2 && <Step3 setVisible={setIsVisible}/>}
             </CardBody>
           </Card>
         </motion.div>

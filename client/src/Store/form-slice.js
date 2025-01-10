@@ -20,7 +20,6 @@ export const formSlice = createSlice({
     },
     mutateCourseUrl: (state, action) => {
       state.course_url = action.payload.course_url;
-      // console.log(`Saved ${state.course_url}`);
     },
     setTrackingPreferences: (state, action) => {
       state.tracking_preferences = action.payload.selected_options;
