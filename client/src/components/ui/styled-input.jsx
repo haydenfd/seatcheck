@@ -1,5 +1,6 @@
-import { Input, cn } from "@nextui-org/react";
 import React from "react";
+
+import { Input, cn } from "@nextui-org/react";
 
 export const StyledInput = ({
   label,
@@ -17,8 +18,9 @@ export const StyledInput = ({
     <Input
       {...props}
       classNames={{
-        label: cn("font-medium text-md text-black-600"),
-        input: ["placeholder:text-default-700/90"],
+        label: cn("font-medium text-md text-black-600 font-sans"),
+        input: cn("placeholder:text-default-700/90 font-medium"),
+        inputWrapper: cn("border-3 border-black rounded-md p-2"),
         mainWrapper: cn("py-4"),
         errorMessage: cn(
           `font-medium text-sm invisible ${isInvalid ? "visible" : ""}`,
