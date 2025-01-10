@@ -11,8 +11,8 @@ import { Step3 } from "@/components/form/form-components/step3";
 import { useStepContext } from "@/context/stepcontext";
 
 const titles = [
-  "Input course/section URL",
-  "Set up tracking notifications",
+  "Input section URL",
+  "Configure tracking",
   "Personal information",
 ];
 
@@ -45,12 +45,14 @@ export const Form = ({ isVisible, setIsVisible }) => {
               <h1>
                 Step {step}: {titles[step - 1]}
               </h1>
+              <button className="bg-white text-2xl text-blue-800 border-2 border-blue-800 absolute right-3 px-2 font-condensed hover:bg-blue-800 hover:text-white hover:border-white" onClick={() => setIsVisible(false)}>X</button>
             </CardHeader>
+
             <Divider />
             <CardBody className="flex flex-col justify-center p-0 mt-4 w-2/3 mx-auto">
               {step === 1 && <Step1 />}
               {step === 3 && <Step2/>}
-              {step === 2 && <Step3 setVisible={setIsVisible}/>}
+              {step === 2 && <Step3 setVisible={true}/>}
             </CardBody>
           </Card>
         </motion.div>

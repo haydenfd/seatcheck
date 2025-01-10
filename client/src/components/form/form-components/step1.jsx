@@ -105,7 +105,7 @@ export const Step1 = () => {
           
           />
         </div>
-        <div className="ml-auto my-6">
+        <div className="mx-auto my-6">
             <StyledButton text={step === 3? "Submit" : "Next"} onPress={handleNext}/>
         </div>
       {/* </motion.div> */}

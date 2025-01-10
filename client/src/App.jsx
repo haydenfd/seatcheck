@@ -41,16 +41,21 @@ function App() {
       </div>
       <Guide />
       <div className="w-full mx-auto text-center my-10">
-        <StyledButton
-          text={`${loadForm ? "End tracking" : "Set up course tracking"} `}
-          onPress={() => {
-            setLoadForm(prev => !prev);
-            resetStep();
-            dispatch(resetFormData());
-            dispatch(resetCourseAnalysis());
-          }}
-          classes="mb-6"
-        />
+        {
+          !loadForm && (
+            <StyledButton
+            text="Set up tracking"
+            onPress={() => {
+              setLoadForm(prev => !prev);
+              resetStep();
+              dispatch(resetFormData());
+              dispatch(resetCourseAnalysis());
+            }}
+            classes="mb-6"
+          />
+          )
+        }
+
       </div>
       <Form isVisible={loadForm} setIsVisible={setLoadForm}/>
     </div>

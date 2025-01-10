@@ -192,7 +192,7 @@ export const Step3 = ({ setVisible }) => {
           isClearable={true}
         />
       </div>
-      <div className="ml-auto my-6">
+      <div className="mx-auto my-6">
             <StyledButton text="Previous" onPress={handlePrev} classes="mr-6"/>
             <StyledButton text="Submit" onPress={handleSubmit} isButtonDisabled={!canUserSubmit}/>
       </div>
