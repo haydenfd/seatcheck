@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { NotFound } from "./components/notfound/notfound";
-import { Tracking } from "./components/tracking/tracking";
 import { LoadProvider } from "./context/loadingcontext";
 
 import App from "@/App";
@@ -22,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Router>
             <Routes>
               <Route path="/" element={<App />} />
-              <Route path="/track/:track_id" element={<Tracking />} />
+              {/* <Route path="/track/:track_id" element={<Tracking />} /> */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
