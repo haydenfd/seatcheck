@@ -64,6 +64,13 @@ export const Step1 = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (formData.term && formData.dept) {
+      console.log("Filled values:", formData.term, formData.dept);
+    }
+  }, [formData.term, formData.dept]); 
+
+
   const handleNext = () => {
 
 

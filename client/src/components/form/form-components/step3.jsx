@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 
 import axios from "axios";
 import { motion } from "framer-motion";
+import { ImArrowRight, ImArrowLeft} from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 
 import { StyledModal } from "@/components/ui/modal";
@@ -163,10 +164,10 @@ export const Step3 = ({ setVisible }) => {
         body={modalBody}
         type={modalType}
       /> 
-      <p className="w-3/4 mx-auto text-md font-medium text-center overflow-hidden">
+      {/* <p className="w-3/4 mx-auto text-md font-medium text-center overflow-hidden">
         Please fill out all fields!
-      </p>
-      <div className="w-3/4 mx-auto overflow-hidden mt-8">
+      </p> */}
+      <div className="w-3/4 mx-auto overflow-hidden">
         <StyledInput
           label="Enter your name"
           placeholder="Joe Bruin"
@@ -192,9 +193,9 @@ export const Step3 = ({ setVisible }) => {
           isClearable={true}
         />
       </div>
-      <div className="mx-auto my-6">
-            <StyledButton text="Previous" onPress={handlePrev} classes="mr-6"/>
-            <StyledButton text="Submit" onPress={handleSubmit} isButtonDisabled={!canUserSubmit}/>
+      <div className="w-3/4 my-6 mx-auto flex justify-between">
+            <StyledButton text="Previous" onPress={handlePrev} classes="ml-0 w-[50px]" isIconOnly icon={<ImArrowLeft className="scale-150"/>}/>
+            <StyledButton text="Submit" onPress={handleSubmit} classes="mr-0 w-[50px]" isButtonDisabled={!canUserSubmit} isIconOnly icon={<ImArrowRight className="scale-150"/>}/>
       </div>
       </>
   );
