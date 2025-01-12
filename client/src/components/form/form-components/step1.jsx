@@ -10,14 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import majors from './majors.json'
 
 import { getApiEndpoint } from "@/api";
-import { StyledModal } from "@/components/ui/modal";
 import { StyledButton } from "@/components/ui/styled-button";
 import { StyledInput } from "@/components/ui/styled-input";
 import { useLoadingContext } from "@/context/loadingcontext";
 import { useStepContext } from "@/context/stepcontext";
 import {setCourseAnalysisData} from '@/store/course-analysis-slice';
 import { mutateCourseUrl } from "@/store/form-slice";
-import { isValidCourseUrl } from '@/utils/form-validator';
 
 const terms = [
   {key: "24F", label: "Fall 2024 "},
@@ -34,6 +32,25 @@ const major_options = [
 ]
 
 export const Step1 = () => {
+
+
+  // term - string. 
+  // dept - string. 
+  // course - string. All 3 chosen by user. term and dept affect course. So, course is affected by the combos of term and dept, list of courses to pick a course from renders dynamically. user stores one of the courses in this variable. Need to fill in all 3 to pass to next step of form
+
+  const [formData, setFormData] = useState({
+    "term": "",
+    "dept": "",
+    "course": "",
+  })
+
+  const handleFormDataFieldChange = (key, val) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [key]: val
+    }));
+  }
+
   const { nextStep, prevStep, step, direction, isFirstRender } = useStepContext();
   const {setToLoad, setLoaded} = useLoadingContext();
   const course_url = useSelector((state) => state.form.course_url);
@@ -47,59 +64,46 @@ export const Step1 = () => {
     }
   }, []);
 
-  const handleNext = async () => {
+  const handleNext = () => {
 
-    // console.log(`This url is ${isValidCourseUrl(url)}`);
 
-    const encoded_url = encodeURIComponent(url);
-    const endpoint = getApiEndpoint("course",{
-      url: encoded_url
-    });
+    // const encoded_url = encodeURIComponent(url);
+    // const endpoint = getApiEndpoint("course",{
+    //   url: encoded_url
+    // });
     
-    if (url === course_url) {
-      nextStep();
-    }
-    else {
+    // if (url === course_url) {
+    //   nextStep();
+    // }
+    // else {
       
-      setToLoad();
-      const response = (await axios.get(endpoint).catch(function (error) {
-        if (error.response) {
-          setLoaded();
-          console.log('failed');
-        }
-      }));
+    //   setToLoad();
+    //   const response = (await axios.get(endpoint).catch(function (error) {
+    //     if (error.response) {
+    //       setLoaded();
+    //       console.log('failed');
+    //     }
+    //   }));
       
-      if (response.status) {
-        setLoaded();
-        dispatch(
-          mutateCourseUrl({
-            course_url: url
-          }))
+    //   if (response.status) {
+    //     setLoaded();
+    //     dispatch(
+    //       mutateCourseUrl({
+    //         course_url: url
+    //       }))
 
-        }
+    //     }
         
-        console.log(response.data);
-        if (response.status === 200) {
-          dispatch(setCourseAnalysisData(response.data));
-          nextStep();
-        } else {
-          console.log('Response was not 200'); 
-        }
-      }
+    //     console.log(response.data);
+    //     if (response.status === 200) {
+    //       dispatch(setCourseAnalysisData(response.data));
+    //       nextStep();
+    //     } else {
+    //       console.log('Response was not 200'); 
+    //     }
+    //   }
+    console.log(formData)
   }
-  
-  const slideInVariants = {
-    initial: (direction) => ({
-      x: direction === "next" ? 1000 : -1000,
-      opacity: 0,
-    }),
-    animate: { x: 0, opacity: 1 },
-    exit: (direction) => ({
-      x: direction === "next" ? -1000 : 1000,
-      opacity: 0,
-    }),
-  };
-
 
 
   return (
@@ -129,7 +133,10 @@ export const Step1 = () => {
             label="Choose term"
             placeholder="Select a term"
             isRequired
-          >
+            onSelectionChange={(value) => {
+              handleFormDataFieldChange("term", value);
+            }}          
+            >
             {(term) => <SelectItem>{term.label}</SelectItem>}
           </Select>
           <Autocomplete
@@ -138,6 +145,7 @@ export const Step1 = () => {
             label="Choose department"
             placeholder="Search for a department"
             isRequired
+            onSelectionChange={(value) => handleFormDataFieldChange("dept", value)}
           >
           {(major) => <AutocompleteItem key={major.key}>{major.label}</AutocompleteItem>}
     </Autocomplete>          
@@ -147,6 +155,7 @@ export const Step1 = () => {
             label="Choose course"
             placeholder="Search for a course"
             isRequired
+            onSelectionChange={(value) => handleFormDataFieldChange("course", value)}
           >
           {(course) => <AutocompleteItem key={course.key}>{course.label}</AutocompleteItem>}
     </Autocomplete>         
