@@ -164,9 +164,6 @@ export const Step3 = ({ setVisible }) => {
         body={modalBody}
         type={modalType}
       /> 
-      {/* <p className="w-3/4 mx-auto text-md font-medium text-center overflow-hidden">
-        Please fill out all fields!
-      </p> */}
       <div className="w-3/4 mx-auto overflow-hidden">
         <StyledInput
           label="Enter your name"

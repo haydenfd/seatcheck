@@ -1,4 +1,5 @@
 import React from "react";
+
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 export const Loader = ({ text, loading }) => {

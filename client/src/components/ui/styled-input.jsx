@@ -18,9 +18,9 @@ export const StyledInput = ({
     <Input
       {...props}
       classNames={{
-        label: cn("font-medium text-md text-black-600 font-sans"),
+        label: cn("font-medium text-sm text-black-600 font-open "),
         input: cn("placeholder:text-default-700/90 font-medium"),
-        inputWrapper: cn("border-3 border-black rounded-md p-2"),
+        inputWrapper: cn("border-2 border-black rounded-md p-2"),
         mainWrapper: cn("py-4"),
         errorMessage: cn(
           `font-medium text-sm invisible ${isInvalid ? "visible" : ""}`,

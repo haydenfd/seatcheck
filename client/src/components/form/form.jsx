@@ -40,19 +40,19 @@ export const Form = ({ isVisible, setIsVisible }) => {
           // transition={{ duration: 0.5 }}
           // className="overflow-hidden"
         >
-          <Card className="w-[45%] text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0 h-full">
-            <CardHeader className="flex justify-center items-center text-center font-bold text-xl rounded-none bg-ucla-blue text-ucla-gold">
+          <Card className="w-[85%] text-black bg-white rounded-none mx-auto flex flex-col shadow-lg pb-0 h-full">
+            <CardHeader className="flex justify-center items-center text-center font-bold text-xl rounded-none font-open bg-ucla-blue text-ucla-gold">
               <h1>
                 Step {step}: {titles[step - 1]}
               </h1>
-              <button className="bg-white text-2xl text-ucla-blue border-2 border-ucla-blue absolute right-3 px-2 font-condensed hover:text-ucla-blue hover:bg-ucla-gold hover:border-ucla-blue" onClick={() => setIsVisible(false)}>X</button>
+              <button className="bg-white text-3xl leading-none text-ucla-blue border-2 font-medium border-ucla-blue absolute right-3 px-2 hover:text-ucla-blue hover:bg-ucla-gold hover:border-ucla-blue" onClick={() => setIsVisible(false)}>X</button>
             </CardHeader>
 
             <Divider />
             <CardBody className="flex flex-col justify-center p-0 mt-4 w-2/3 mx-auto">
               {step === 1 && <Step1 />}
-              {step === 3 && <Step2/>}
-              {step === 2 && <Step3 setVisible={true}/>}
+              {step === 2 && <Step2/>}
+              {step === 3 && <Step3 setVisible={true}/>}
             </CardBody>
           </Card>
         </motion.div>

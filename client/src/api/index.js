@@ -4,6 +4,7 @@ export const BASE_URL = "https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/
 export const ENDPOINTS = {
     course: "url",
     confirm: "tracking",
+    foo: "foo",
 };
 
 export function getApiEndpoint(endpointKey, params = {}) {
