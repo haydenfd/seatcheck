@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import {Autocomplete,AutocompleteSection,AutocompleteItem} from "@nextui-org/autocomplete";
-import { Select } from "@nextui-org/react";
-import { SelectItem } from "@nextui-org/react";
+import {Autocomplete,AutocompleteSection,AutocompleteItem} from "@heroui/autocomplete";
+import { Select } from "@heroui/react";
+import { SelectItem } from "@heroui/react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { ImArrowRight, ImArrowLeft} from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
+
 
 import majors from './majors.json'
 
@@ -14,8 +16,8 @@ import { StyledButton } from "@/components/ui/styled-button";
 import { StyledInput } from "@/components/ui/styled-input";
 import { useLoadingContext } from "@/context/loadingcontext";
 import { useStepContext } from "@/context/stepcontext";
-import {setCourseAnalysisData} from '@/store/course-analysis-slice';
-import { mutateCourseUrl } from "@/store/form-slice";
+import { updateStepData } from "@/store/form-slice";
+// import { mutateCourseUrl } from "@/store/form-slice";
 
 const terms = [
   {key: "25W", label: "Winter 2025"},
@@ -27,9 +29,12 @@ const terms = [
 export const Step1 = () => {
 
 
+  const dispatch = useDispatch();
   // term - string. 
   // dept - string. 
   // course - string. All 3 chosen by user. term and dept affect course. So, course is affected by the combos of term and dept, list of courses to pick a course from renders dynamically. user stores one of the courses in this variable. Need to fill in all 3 to pass to next step of form
+
+  const redux_form_step_1 = useSelector(state => state.form.step_1)
 
   const [formData, setFormData] = useState({
     "term_cd": "",
@@ -41,6 +46,15 @@ export const Step1 = () => {
     "class_no": "",
     "lecture":"",
   })
+  // list of departments - so majors.json. 
+  // Chosen department - so, formData.course.
+  // list of terms. 
+  // term_cd. 
+  // class_id. 
+  // crs_catalog_no
+  // subj_area_cd
+  // course.
+  // subj_area_cd.
 
   const [courseData,setCourseData] = useState([]);
   const [lectureOptions, setLectureOptions] = useState([]);
@@ -56,7 +70,6 @@ export const Step1 = () => {
   const {setToLoad, setLoaded} = useLoadingContext();
   const course_url = useSelector((state) => state.form.course_url);
 
-  const dispatch = useDispatch();
   // const [url, setUrl] = useState("https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0001%20%20%20%20&class_id=187003200&class_no=%20001%20%20");
 
 
@@ -64,7 +77,7 @@ export const Step1 = () => {
    
   // },[formData.course] )
   useEffect(() => {
-    if (formData.term && formData.subj_area_name && formData.subj_area_cd) {
+    if (formData.term_cd && formData.subj_area_name && formData.subj_area_cd) {
       // const it = formData.term.values().next().value
       // const x = `${formData.subjAreaName} (${formData.subjAreaCode})`
       const url = "https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/bar"
@@ -111,7 +124,7 @@ export const Step1 = () => {
     }
 
 
-  }, [formData.term, formData.subj_area_name, formData.subj_area_cd]); 
+  }, [formData.term_cd, formData.subj_area_name, formData.subj_area_cd]); 
 
 
   useEffect(() => {
@@ -133,6 +146,19 @@ export const Step1 = () => {
     }
     
   }, [formData.course])
+
+  const handleStep1Submit = () => {
+
+    setToLoad();
+
+    setTimeout(() => {
+      console.log("Simulating lambda call...");
+      setLoaded();
+      nextStep();
+    }, 2000)
+
+  }
+
 
   const handleNext = () => {
 
@@ -187,13 +213,14 @@ export const Step1 = () => {
         variants={slideInVariants}
         transition={{ duration: 0.5 }}
       > */}
-        <div className="flex flex-col gap-8 w-full mt-8 ">
+        <div className="flex flex-col gap-8 w-full mt-8">
           <div className="flex flex-row-reverse gap-8 items-center">
             <Select
               className="flex-none w-[35%] h-full"
               classNames={{
                 label: "font-open italic",
                 trigger: "border-2 border-black rounded-xl bg-white",
+                popoverContent: "border-2 border-black rounded-xl mt-1",
                 }}
               items={terms}
               label="Choose term"
@@ -201,7 +228,7 @@ export const Step1 = () => {
               isRequired
               onSelectionChange={(value) => {
 
-                handleFormDataFieldChange("term", value.values().next().value);
+                handleFormDataFieldChange("term_cd", value.values().next().value);
               }}          
               >
               {(term) => <SelectItem>{term.label}</SelectItem>}
@@ -218,10 +245,10 @@ export const Step1 = () => {
               onSelectionChange={(value) => {
                 handleFormDataFieldChange("subj_area_cd", value)
                 const match = majors.find((item) => item.key === value);
-                handleFormDataFieldChange("subjAreaName", match.label);
+                handleFormDataFieldChange("subj_area_name", match?.label);
               }}
             >
-            {(major) => <AutocompleteItem key={major.key}>{major.label}</AutocompleteItem>}
+            {(major) => <AutocompleteItem key={major.key}>{major.key}</AutocompleteItem>}
       </Autocomplete>          
       
           </div>
@@ -248,12 +275,13 @@ export const Step1 = () => {
             className="flex-none w-[35%] h-full"
             classNames={{
               label: "font-open italic",
-              trigger: "border-2 border-black rounded-xl bg-white",
+              trigger: `border-2 rounded-xl bg-white ${lectureOptions.length === 0 ? "border-blue-600" : "border-black"}`,
               }}
             items={lectureOptions}
             label="Choose lecture"
             placeholder="Select a lecture"
             isRequired
+            isDisabled={lectureOptions.length === 0}
             onSelectionChange={(value) => {
               const num = value.values().next().value;
               console.log(num);
@@ -270,13 +298,11 @@ export const Step1 = () => {
             {(lecture) => <SelectItem>{lecture.label}</SelectItem>}
           </Select>    
           </div>  
-    {/* <div>Your choice: {formData.course}</div>
-    <div>Your lecture: {formData.lecture}</div> */}
+  
         </div>
-        <div className="flex flex-col justify-end w-full my-10">
-            <StyledButton classes="ml-auto mr-0" text={step === 3? "Submit" : "Next"} onPress={() => {
-              console.log(formData);
-            }}/>
+        <div className="w-full my-6 mx-auto flex justify-between">
+          <StyledButton text="Previous" onPress={() => console.log("Hello")} classes="ml-0 w-[50px]" isButtonDisabled isIconOnly icon={<ImArrowLeft className="scale-150"/>}/>
+          <StyledButton text="Submit" onPress={() => handleStep1Submit()} classes="mr-0 w-[50px]" isButtonDisabled={false} isIconOnly icon={<ImArrowRight className="scale-150"/>}/>
         </div>
       {/* </motion.div> */}
     </>

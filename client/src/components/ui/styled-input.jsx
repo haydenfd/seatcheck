@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Input, cn } from "@nextui-org/react";
+import { Input, cn } from "@heroui/react";
 
 export const StyledInput = ({
   label,
@@ -18,10 +18,10 @@ export const StyledInput = ({
     <Input
       {...props}
       classNames={{
-        label: cn("font-medium text-sm text-black-600 font-open "),
-        input: cn("placeholder:text-default-700/90 font-medium"),
-        inputWrapper: cn("border-2 border-black rounded-md p-2"),
-        mainWrapper: cn("py-4"),
+        label: cn("font-medium text-sm text-black-600 font-open italic"),
+        input: cn("placeholder:text-slate-500 font-medium"),
+        inputWrapper: cn("border-2 border-black rounded-md p-2 bg-white font-sans"),
+        mainWrapper: cn("py-2"),
         errorMessage: cn(
           `font-medium text-sm invisible ${isInvalid ? "visible" : ""}`,
         ),

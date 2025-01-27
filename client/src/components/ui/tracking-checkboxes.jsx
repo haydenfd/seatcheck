@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
+import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 
 const options = {
   "notify-seat-open": "Notify me when a seat opens up in the class",

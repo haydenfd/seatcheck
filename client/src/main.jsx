@@ -1,6 +1,6 @@
 import React from "react";
 
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -15,7 +15,7 @@ import "@/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <NextUIProvider>
+    <HeroUIProvider>
       <StepProvider>
         <LoadProvider>
         <Router>
@@ -27,6 +27,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </Router>
         </LoadProvider>
       </StepProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   </Provider>,
 );

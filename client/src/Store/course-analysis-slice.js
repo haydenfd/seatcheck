@@ -27,6 +27,6 @@ export const courseAnalysisSlice = createSlice({
   },
 });
 
-export const { setCourseAnalysisData, resetCourseAnalysis } = courseAnalysisSlice.actions;
+// export const { setCourseAnalysisData, resetCourseAnalysis } = courseAnalysisSlice.actions;
 
 export default courseAnalysisSlice.reducer;

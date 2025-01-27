@@ -7,8 +7,6 @@ import { Loader } from "./components/ui/loader";
 import { StyledButton } from "./components/ui/styled-button";
 import { useLoadingContext } from "./context/loadingcontext";
 import { useStepContext } from "./context/stepcontext";
-import { resetCourseAnalysis } from "./store/course-analysis-slice";
-import { resetFormData } from "./store/form-slice";
 
 import { Form } from "@/components/form/form";
 import { Guide } from "@/components/guide/guide";
@@ -48,8 +46,7 @@ function App() {
             onPress={() => {
               setLoadForm(prev => !prev);
               resetStep();
-              dispatch(resetFormData());
-              dispatch(resetCourseAnalysis());
+              // dispatch(resetFormData());
             }}
             classes="mb-6"
           />

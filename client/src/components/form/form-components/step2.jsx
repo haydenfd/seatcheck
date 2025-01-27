@@ -1,22 +1,101 @@
 import React, { useEffect, useState } from 'react';
 
-import { CheckboxGroup, Checkbox } from '@nextui-org/react';
+import { CheckboxGroup, Checkbox } from "@heroui/react";
+import { ImArrowRight, ImArrowLeft} from "react-icons/im";
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useStepContext } from '@/context/stepcontext';
-import { setTrackingPreferences } from '@/store/form-slice';
+// import { setTrackingPreferences } from '@/store/form-slice';
+import { StyledButton } from '@/components/ui/styled-button';
+import { useLoadingContext } from "@/context/loadingcontext";
+import { useStepContext } from "@/context/stepcontext";
 
 export const Step2 = () => {
   
   const dispatch = useDispatch();
   const store_course_analysis = useSelector((state) => state.courseAnalysis);
 
+
+    const { nextStep, prevStep, step, direction, isFirstRender } = useStepContext();
+    const {setToLoad, setLoaded} = useLoadingContext();
+
+  const handleStep2Previous = () => {
+    // TODO: Add saving current step 2 data
+    prevStep();
+  }
+  const handleStep2Submit = () => {
+    
+    nextStep();
+  }
+  return (
+    <div className='flex flex-col gap-2 w-full mt-4 mb-10'>
+      <h2 className='mx-auto text-2xl font-bold'>Math 31B, Winter 2024</h2>
+      <h3 className='mx-auto text-xl font-semibold'>Lecture 1, Conley W.J.</h3>
+      <div className="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-sm rounded-none border-2 border-black mt-8">
+  <table className="w-full text-center table-auto min-w-max">
+    <thead>
+        <tr>
+            <th className="p-3 border-b border-slate-300 bg-bg-blue ">
+                <p className="text-md font-normal leading-none text-white text-center">
+                    Days
+                </p>
+            </th>
+            <th className="p-3 border-b border-slate-300 bg-bg-blue ">
+                <p className="block text-md font-normal leading-none text-white text-center">
+                    Time
+                </p>
+            </th>
+            <th className="p-3 border-b border-slate-300 bg-bg-blue ">
+                <p className="block text-md font-normal leading-none text-white text-center">
+                    Class Status
+                </p>
+            </th>
+            <th className="p-3 border-b border-slate-300 bg-bg-blue ">
+                <p className="block text-md font-normal leading-none text-white text-center">
+                    Waitlist Status
+                </p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr className="hover:bg-slate-50">
+            <td className="p-3 border-b border-slate-200">
+                <p className="block text-md font-medium text-slate-800 text-center">
+                    MWF
+                </p>
+            </td>
+            <td className="p-3 border-b border-slate-200">
+                <p className="block text-md font-medium text-slate-800 text-center">
+                    8am-8:50am
+                </p>
+            </td>
+            <td className="p-3 border-b border-slate-200">
+                <p className="block text-md font-medium text-slate-800 text-center">
+                Open: 39 of 41 Enrolled
+                </p>
+            </td>
+            <td className="p-3 border-b border-slate-200">
+                <p className="block text-md font-medium text-slate-800 text-center">
+                    No Waitlist
+                </p>
+            </td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+</div>
+        <div className="w-full my-6 mx-auto flex justify-between">
+          <StyledButton text="Previous" onPress={() => handleStep2Previous()} classes="ml-0 w-[50px]" isButtonDisabled isIconOnly icon={<ImArrowLeft className="scale-150"/>}/>
+          <StyledButton text="Submit" onPress={() => handleStep2Submit()} classes="mr-0 w-[50px]" isButtonDisabled={false} isIconOnly icon={<ImArrowRight className="scale-150"/>}/>
+        </div>
+    </div>
+  )
 }
 
 
 // import React, { useEffect, useState } from "react";
 
-// import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
+// import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 // import { motion } from "framer-motion";
 // import { useSelector, useDispatch } from "react-redux";
 

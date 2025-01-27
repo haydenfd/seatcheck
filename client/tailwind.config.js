@@ -1,4 +1,4 @@
-import { nextui } from "@nextui-org/react";
+import { heroui } from "@heroui/react";
 import commonjs from "vite-plugin-commonjs";
 
 /** @type {import('tailwindcss').Config} */
@@ -9,7 +9,7 @@ module.exports = {
     "./components/**/*.{js,jsx}",
     "./app/**/*.{js,jsx}",
     "./src/**/*.{js,jsx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -42,11 +42,12 @@ module.exports = {
       colors: {
         "ucla-gold": "#FFD100",
         "ucla-blue": "#2774AE",
+        "bg-blue": "#003b5c",
       },
       boxShadow: {
         subtle: "0 4px 12px rgba(255, 179, 0, 0.5)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui(), commonjs()],
+  plugins: [require("tailwindcss-animate"), heroui(), commonjs()],
 };
