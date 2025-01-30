@@ -12,7 +12,7 @@ import { Step3 } from "@/components/form/form-components/step3";
 import { useStepContext } from "@/context/stepcontext";
 const titles = [
   "Choose lecture",
-  "Configure tracking",
+  "Confirm section",
   "Provide personal information",
 ];
 

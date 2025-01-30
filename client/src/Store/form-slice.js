@@ -45,22 +45,27 @@ const initialStep3State = {
 };
 
 const initialStep1State = {
-  dept:"",
-  term_cd:"",
-  course_code:"",
-  lecture: "",
+    "term_cd": "",
+    "subj_area_name": "",
+    "course": "",
+    "subj_area_cd":"",
+    "crs_catlg_no":"",
+    "class_id": "",
+    "class_no": "",
+    "lecture":"",
+    "course_options": [],
+    "lecture_options": [],
 }
 
 const initialState = {
   step1: initialStep1State, 
-  step2: {}, 
   step3: initialStep3State,
 };
 
 export const formSlice = createSlice({
   name: "form",
   initialState,
-  reducers: { // Define reducers here
+  reducers: {
     updateStepData: (state, action) => {
       const { step, data } = action.payload;
       state[step] = { ...state[step], ...data }; 

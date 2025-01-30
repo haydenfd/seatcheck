@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import { CheckboxGroup, Checkbox } from "@heroui/react";
 import { ImArrowRight, ImArrowLeft} from "react-icons/im";
 import { useSelector, useDispatch } from 'react-redux';
 
-// import { setTrackingPreferences } from '@/store/form-slice';
 import { StyledButton } from '@/components/ui/styled-button';
 import { useLoadingContext } from "@/context/loadingcontext";
 import { useStepContext } from "@/context/stepcontext";
@@ -12,11 +10,12 @@ import { useStepContext } from "@/context/stepcontext";
 export const Step2 = () => {
   
   const dispatch = useDispatch();
-  const store_course_analysis = useSelector((state) => state.courseAnalysis);
 
 
     const { nextStep, prevStep, step, direction, isFirstRender } = useStepContext();
     const {setToLoad, setLoaded} = useLoadingContext();
+    const redux_form_step_1 = useSelector(state => state.form.step1)
+    
 
   const handleStep2Previous = () => {
     // TODO: Add saving current step 2 data
@@ -28,8 +27,8 @@ export const Step2 = () => {
   }
   return (
     <div className='flex flex-col gap-2 w-full mt-4 mb-10'>
-      <h2 className='mx-auto text-2xl font-bold'>Math 31B, Winter 2024</h2>
-      <h3 className='mx-auto text-xl font-semibold'>Lecture 1, Conley W.J.</h3>
+      <h2 className='mx-auto text-2xl font-bold'>{redux_form_step_1.subj_area_cd} {redux_form_step_1.crs_catlg_no.slice(redux_form_step_1.crs_catlg_no.search(/[^0]/))}, {redux_form_step_1.term_cd}</h2>
+      <h3 className='mx-auto text-xl font-semibold'>Lecture {redux_form_step_1.lecture}, PROFESSOR NAME</h3>
       <div className="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-sm rounded-none border-2 border-black mt-8">
   <table className="w-full text-center table-auto min-w-max">
     <thead>
@@ -84,8 +83,9 @@ export const Step2 = () => {
   </table>
 
 </div>
+
         <div className="w-full my-6 mx-auto flex justify-between">
-          <StyledButton text="Previous" onPress={() => handleStep2Previous()} classes="ml-0 w-[50px]" isButtonDisabled isIconOnly icon={<ImArrowLeft className="scale-150"/>}/>
+          <StyledButton text="Previous" onPress={() => handleStep2Previous()} classes="ml-0 w-[50px]" isIconOnly icon={<ImArrowLeft className="scale-150"/>}/>
           <StyledButton text="Submit" onPress={() => handleStep2Submit()} classes="mr-0 w-[50px]" isButtonDisabled={false} isIconOnly icon={<ImArrowRight className="scale-150"/>}/>
         </div>
     </div>
@@ -176,19 +176,19 @@ export const Step2 = () => {
 //           </p>
 //         </section>
 
-//         <section className="bg-red-300 ">
-//           <CheckboxGroup
-//             label="Select when you want to be notified"
-//             value={selectedOptions}
-//             onValueChange={setSelectedOptions}
-//           >
-//             {Object.keys(optionsState).map((key) => (
-//               <Checkbox value={key} key={key} classNames={{ label: "text-sm" }}>
-//                 {options[key]}
-//               </Checkbox>
-//             ))}
-//           </CheckboxGroup>
-//         </section>
+        // <section className="bg-red-300 ">
+        //   <CheckboxGroup
+        //     label="Select when you want to be notified"
+        //     value={selectedOptions}
+        //     onValueChange={setSelectedOptions}
+        //   >
+        //     {Object.keys(optionsState).map((key) => (
+        //       <Checkbox value={key} key={key} classNames={{ label: "text-sm" }}>
+        //         {options[key]}
+        //       </Checkbox>
+        //     ))}
+        //   </CheckboxGroup>
+        // </section>
 
 //         <div className="ml-auto my-6">
 //             <StyledButton text="Previous" onPress={prevStep} classes="mr-6"/>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {Autocomplete,AutocompleteSection,AutocompleteItem} from "@heroui/autocomplete";
+import {Autocomplete,AutocompleteItem} from "@heroui/autocomplete";
 import { Select } from "@heroui/react";
 import { SelectItem } from "@heroui/react";
 import axios from "axios";
@@ -13,11 +13,9 @@ import majors from './majors.json'
 
 import { getApiEndpoint } from "@/api";
 import { StyledButton } from "@/components/ui/styled-button";
-import { StyledInput } from "@/components/ui/styled-input";
 import { useLoadingContext } from "@/context/loadingcontext";
 import { useStepContext } from "@/context/stepcontext";
 import { updateStepData } from "@/store/form-slice";
-// import { mutateCourseUrl } from "@/store/form-slice";
 
 const terms = [
   {key: "25W", label: "Winter 2025"},
@@ -34,13 +32,13 @@ export const Step1 = () => {
   // dept - string. 
   // course - string. All 3 chosen by user. term and dept affect course. So, course is affected by the combos of term and dept, list of courses to pick a course from renders dynamically. user stores one of the courses in this variable. Need to fill in all 3 to pass to next step of form
 
-  const redux_form_step_1 = useSelector(state => state.form.step_1)
+  const redux_form_step_1 = useSelector(state => state.form.step1)
 
   const [formData, setFormData] = useState({
     "term_cd": "",
     "subj_area_name": "",
     "course": "",
-    "subj_area_cd":"",
+    "subj_area_cd":"MATH",
     "crs_catlg_no":"",
     "class_id": "",
     "class_no": "",
@@ -59,6 +57,23 @@ export const Step1 = () => {
   const [courseData,setCourseData] = useState([]);
   const [lectureOptions, setLectureOptions] = useState([]);
 
+  useEffect(() => {
+    if (redux_form_step_1.term_cd.length > 0) {
+      setCourseData(redux_form_step_1.course_options)
+      setLectureOptions(redux_form_step_1.lecture_options)
+      setFormData({
+        "term_cd": redux_form_step_1.term_cd,
+        "subj_area_name": redux_form_step_1.subj_area_name,
+        "subj_area_cd": redux_form_step_1.subj_area_cd,
+        "crs_catlg_no": redux_form_step_1.crs_catlg_no,
+        "class_id":  redux_form_step_1.class_id,
+        "class_no": redux_form_step_1.class_no,
+        "lecture": redux_form_step_1.lecture,
+      })
+
+    }
+  }, [redux_form_step_1])
+
   const handleFormDataFieldChange = (key, val) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -68,7 +83,6 @@ export const Step1 = () => {
 
   const { nextStep, prevStep, step, direction, isFirstRender } = useStepContext();
   const {setToLoad, setLoaded} = useLoadingContext();
-  const course_url = useSelector((state) => state.form.course_url);
 
   // const [url, setUrl] = useState("https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=24F&subj_area_cd=COM%20SCI&crs_catlg_no=0001%20%20%20%20&class_id=187003200&class_no=%20001%20%20");
 
@@ -80,6 +94,7 @@ export const Step1 = () => {
     if (formData.term_cd && formData.subj_area_name && formData.subj_area_cd) {
       // const it = formData.term.values().next().value
       // const x = `${formData.subjAreaName} (${formData.subjAreaCode})`
+      setToLoad()
       const url = "https://pl821nzzaa.execute-api.us-west-1.amazonaws.com/prod/bar"
       console.log("Ran")
       fetch(url)
@@ -87,6 +102,7 @@ export const Step1 = () => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
+      
       return res.json(); 
     })
     .then((data) => {
@@ -116,6 +132,7 @@ export const Step1 = () => {
       const process = processCourseList(data);
       console.log(process);
       setCourseData(process);
+      setLoaded();
     
     })
     .catch((error) => { 
@@ -149,13 +166,29 @@ export const Step1 = () => {
 
   const handleStep1Submit = () => {
 
+dispatch(updateStepData({
+      step: "step1",
+      data: {
+        "term_cd": formData.term_cd,
+        "subj_area_name": formData.subj_area_name,
+        "subj_area_cd": formData.subj_area_cd,
+        "crs_catlg_no": formData.crs_catlg_no,
+        "class_id": formData.class_id,
+        "class_no": formData.class_no,
+        "lecture": formData.lecture,
+        "course_options": courseData,
+        "lecture_options": lectureOptions,
+      },
+    }))
     setToLoad();
 
     setTimeout(() => {
       console.log("Simulating lambda call...");
+      console.log(formData);
       setLoaded();
       nextStep();
     }, 2000)
+
 
   }
 
@@ -215,30 +248,35 @@ export const Step1 = () => {
       > */}
         <div className="flex flex-col gap-8 w-full mt-8">
           <div className="flex flex-row-reverse gap-8 items-center">
-            <Select
-              className="flex-none w-[35%] h-full"
+            <Autocomplete
+              className="flex-none w-[45%] h-full"
               classNames={{
-                label: "font-open italic",
-                trigger: "border-2 border-black rounded-xl bg-white",
-                popoverContent: "border-2 border-black rounded-xl mt-1",
+                base: "font-open italic border-2 border-black rounded-xl bg-white",
+                popoverContent: "border-2 border-black rounded-xl w-full mt-1",
                 }}
-              items={terms}
+              defaultItems={terms}
               label="Choose term"
               placeholder="Select a term"
               isRequired
               onSelectionChange={(value) => {
 
-                handleFormDataFieldChange("term_cd", value.values().next().value);
+                console.log(value)
+                handleFormDataFieldChange("term_cd", value);
               }}          
               >
-              {(term) => <SelectItem>{term.label}</SelectItem>}
-            </Select>
+              {(term) => <AutocompleteItem key={term.key}>{term.label}</AutocompleteItem>}
+            </Autocomplete>
             <Autocomplete
-              className="flex-auto w-[65%] h-full"
+              className="flex-auto w-[45%] h-full"
               classNames={{
                 base: "font-open italic border-2 border-black rounded-xl bg-white",
+                popoverContent: "border-2 border-black rounded-xl w-full mt-1",
                 }}
+              scrollShadowProps={{
+                  isEnabled: false,
+                }}                
               defaultItems={majors}
+              // inputValue={formData?.subj_area_cd}
               label="Choose department"
               placeholder="Search for a department"
               isRequired
@@ -249,13 +287,13 @@ export const Step1 = () => {
               }}
             >
             {(major) => <AutocompleteItem key={major.key}>{major.key}</AutocompleteItem>}
-      </Autocomplete>          
+      </Autocomplete>         
       
           </div>
           <div className="flex flex-row gap-8 items-center">
 
     <Autocomplete
-              className="flex-auto w-[65%] h-full"
+              className="flex-auto w-[45%] h-full"
               classNames={{
                 base: "font-open italic border-2 border-black rounded-xl bg-white",
                 }}
@@ -271,32 +309,29 @@ export const Step1 = () => {
             >
             {(course) => <AutocompleteItem key={course.key}>{course.label}</AutocompleteItem>}
       </Autocomplete> 
-    <Select
-            className="flex-none w-[35%] h-full"
+    <Autocomplete
+            className="flex-none w-[45%] h-full"
             classNames={{
-              label: "font-open italic",
-              trigger: `border-2 rounded-xl bg-white ${lectureOptions.length === 0 ? "border-blue-600" : "border-black"}`,
+              base: "font-open italic border-2 border-black rounded-xl bg-white",
+              popoverContent: "border-2 border-black rounded-xl w-full mt-1",
               }}
-            items={lectureOptions}
+            defaultItems={lectureOptions}
             label="Choose lecture"
             placeholder="Select a lecture"
             isRequired
             isDisabled={lectureOptions.length === 0}
             onSelectionChange={(value) => {
-              const num = value.values().next().value;
-              console.log(num);
+              const num = value;
               handleFormDataFieldChange("lecture", num)
               const course = formData.course;
-              console.log(num)
               handleFormDataFieldChange("class_no", `00${num}`)
               handleFormDataFieldChange("class_id", `${Number(course) + ((num - 1) * 10)}`)
-              // console.log(formData)
             }
             }
         
             >
-            {(lecture) => <SelectItem>{lecture.label}</SelectItem>}
-          </Select>    
+            {(lecture) => <AutocompleteItem key={lecture.key}>{lecture.label}</AutocompleteItem>}
+          </Autocomplete>    
           </div>  
   
         </div>
