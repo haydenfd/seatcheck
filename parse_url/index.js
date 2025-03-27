@@ -134,6 +134,7 @@ exports.handler = async (event, context) => {
 
     const $ = cheerio.load(shadowRootHTML);
 
+
     // console.log(shadowRootHTML);
     // Need to amend here to check if link is valid in first place. If so, then do all the parsing. Else, early return.
     const termDisplay = $('#term_display p').text().trim();

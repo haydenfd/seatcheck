@@ -1,0 +1,17 @@
+{
+  "name": "do_nothing_lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@sparticuz/chromium": "^131.0.1",
+    "cheerio": "^1.0.0",
+    "puppeteer-core": "^24.0.0"
+  }
+}

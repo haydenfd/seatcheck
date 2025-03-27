@@ -80,3 +80,39 @@ Resources:
           EMAIL_PASS: "lowt sace zdvj ktbd"
           EMAIL_PORT: 587
           EMAIL_SENDER: "haydenfds@gmail.com"
+
+  DoNothingLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DoNothingLambdaFunction
+      Handler: do_nothing_lambda/index.handler
+      Runtime: nodejs18.x
+      CodeUri: do_nothing_lambda/
+      MemorySize: 1000
+      Timeout: 45
+      Policies:
+        - AWSLambdaBasicExecutionRole
+
+  FetchAllTerms:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FetchAllTerms
+      Handler: get_available_terms_lambda/index.handler
+      Runtime: nodejs18.x
+      CodeUri: get_available_terms_lambda/
+      MemorySize: 1000
+      Timeout: 45
+      Policies:
+        - AWSLambdaBasicExecutionRole
+
+  FetchCoursesFromDeptAndTerm:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FetchCourses
+      Handler: fetch_courses_from_dept_and_term_lambda/index.handler
+      Runtime: nodejs18.x
+      CodeUri: fetch_courses_from_dept_and_term_lambda/
+      MemorySize: 1000
+      Timeout: 45
+      Policies:
+        - AWSLambdaBasicExecutionRole  
