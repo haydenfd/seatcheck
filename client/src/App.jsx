@@ -1,9 +1,11 @@
 import "@/App.css";
 import React, { useState } from "react";
+import { Fragment } from "react";
 
 import { useDispatch } from "react-redux";
 
 import { MultiStepForm } from "./components/multistepform/MultiStepForm";
+import { CustomButton } from "./components/ui/CustomButton";
 import { Header } from "./components/ui/header";
 import { Loader } from "./components/ui/loader";
 import { StyledButton } from "./components/ui/styled-button";
@@ -24,7 +26,7 @@ function App() {
   const dispatch = useDispatch();
 
   return (
-    <div className="App min-h-screen">
+    <Fragment>
       {isLoading && (
         <Loader
           text="Fetching course information"
@@ -43,14 +45,14 @@ function App() {
       <div className="w-full mx-auto text-center my-10">
         {
           !loadForm && (
-            <StyledButton
-            text="Start tracking now!"
-            onPress={() => {
+            <CustomButton
+            displayText="Get started now!"
+            customClasses="px-8 py-6 text-md"
+            onButtonPress={() => {
               setLoadForm(prev => !prev);
               resetStep();
-              // dispatch(resetFormData());
             }}
-            classes="mb-6"
+            
           />
           )
         }
@@ -59,8 +61,7 @@ function App() {
       {loadForm && (
   <MultiStepForm onClose={() => setLoadForm(false)} />
 )}
-      {/* <Form isVisible={loadForm} setIsVisible={setLoadForm}/> */}
-    </div>
+    </Fragment>
   );
 }
 

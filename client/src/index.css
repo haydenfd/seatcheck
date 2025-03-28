@@ -2,19 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
   font-weight: 400;
-  /* overflow-y: scroll; */
   padding: 0;
-  background-color: #FFFFF0;
+  background-color: #f3f3ec;
 }
 
-/* 
-@layer utilities {
-  .font-condensed {
-    font-stretch: condensed;
-  }
-} */
+html, body, #root {
+  height: 100%;
+}

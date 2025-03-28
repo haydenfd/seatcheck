@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
+import { CustomButton } from '../ui/CustomButton';
 
 export const MultiStepForm = ({onClose}) => {
 
@@ -46,19 +47,11 @@ export const MultiStepForm = ({onClose}) => {
       )} */}
 
       <div className="mt-4 flex justify-between">
-        {currentStep > 1 && (
-          <button type="button" onClick={back} className="px-4 py-2 border rounded">
-            Back
-          </button>
-        )}
+        <CustomButton onButtonPress={back} displayText="Back" isButtonDisabled={currentStep == 1}/>
         {currentStep < 3 ? (
-          <button type="button" onClick={next} className="px-4 py-2 bg-blue-500 text-white rounded">
-            Next
-          </button>
+            <CustomButton onButtonPress={next} displayText="Next"/>
         ) : (
-          <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
-            Submit
-          </button>
+            <CustomButton onButtonPress={next} displayText="Submit"/>
         )}
       </div>
     </form>
