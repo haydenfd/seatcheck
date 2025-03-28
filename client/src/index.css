@@ -7,11 +7,14 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
   font-weight: 400;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  padding: 0;
+  background-color: #FFFFF0;
 }
 
+/* 
 @layer utilities {
   .font-condensed {
     font-stretch: condensed;
   }
-}
+} */

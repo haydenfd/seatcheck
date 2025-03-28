@@ -57,6 +57,8 @@ export const Step1 = () => {
   const [courseData,setCourseData] = useState([]);
   const [lectureOptions, setLectureOptions] = useState([]);
 
+  const nameRef = useRef(null);
+
   useEffect(() => {
     if (redux_form_step_1.term_cd.length > 0) {
       setCourseData(redux_form_step_1.course_options)
@@ -248,7 +250,9 @@ dispatch(updateStepData({
       > */}
         <div className="flex flex-col gap-8 w-full mt-8">
           <div className="flex flex-row-reverse gap-8 items-center">
-            <Autocomplete
+          <input ref={nameRef} type="text" placeholder="Enter your name" />
+
+            {/* <Autocomplete
               className="flex-none w-[45%] h-full"
               classNames={{
                 base: "font-open italic border-2 border-black rounded-xl bg-white",
@@ -331,7 +335,7 @@ dispatch(updateStepData({
         
             >
             {(lecture) => <AutocompleteItem key={lecture.key}>{lecture.label}</AutocompleteItem>}
-          </Autocomplete>    
+          </Autocomplete>     */}
           </div>  
   
         </div>

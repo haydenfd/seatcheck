@@ -16,7 +16,7 @@ export const StyledButton = ({
       onPress={onPress}
       isDisabled={isButtonDisabled}
       isIconOnly={isIconOnly}
-      className={`${isVisible ? 'visible' : 'invisible'} font-semibold cursor-pointer mx-auto my-0 data-[disabled]:bg-opacity-90 bg-ucla-blue text-white border-2 border-transparent rounded-none hover:border-ucla-blue hover:bg-ucla-gold hover:text-ucla-blue transition-all duration-300 ease-in-out py-5 px-3 ${classes}`}
+      className={`${isVisible ? 'visible' : 'invisible'} font-semibold cursor-pointer font-open mx-auto my-0 data-[disabled]:bg-opacity-90 bg-[#005587] text-ucla-gold border-4 border-transparent rounded-lg hover:border-ucla-blue hover:bg-ucla-gold hover:text-ucla-blue transition-all text-lg duration-300 ease-in-out py-6 px-4 ${classes}`}
     >
       {isIconOnly ? icon:text}
     </Button>

@@ -3,12 +3,13 @@ import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 
+import { MultiStepForm } from "./components/multistepform/MultiStepForm";
+import { Header } from "./components/ui/header";
 import { Loader } from "./components/ui/loader";
 import { StyledButton } from "./components/ui/styled-button";
 import { useLoadingContext } from "./context/loadingcontext";
 import { useStepContext } from "./context/stepcontext";
 
-import { Form } from "@/components/form/form";
 import { Guide } from "@/components/guide/guide";
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
   const dispatch = useDispatch();
 
   return (
-    <div className="App min-h-screen overflow-auto">
+    <div className="App min-h-screen">
       {isLoading && (
         <Loader
           text="Fetching course information"
@@ -31,18 +32,19 @@ function App() {
           size={60}
         />
       )}
-      <div className="mt-4 pt-2 mx-auto w-full text-center">
+      <Header />
+      {/* <div className="mt-4 pt-2 mx-auto w-full text-center">
         <h1 className="text-4xl font-extrabold font-open uppercase leading-relaxed">Seatcheck @ UCLA</h1>
         <h2 className="text-2xl underline font-semibold font-open ">
           Get notified when a class space opens
         </h2>
-      </div>
+      </div> */}
       <Guide />
       <div className="w-full mx-auto text-center my-10">
         {
           !loadForm && (
             <StyledButton
-            text="Set up tracking"
+            text="Start tracking now!"
             onPress={() => {
               setLoadForm(prev => !prev);
               resetStep();
@@ -54,7 +56,10 @@ function App() {
         }
 
       </div>
-      <Form isVisible={loadForm} setIsVisible={setLoadForm}/>
+      {loadForm && (
+  <MultiStepForm onClose={() => setLoadForm(false)} />
+)}
+      {/* <Form isVisible={loadForm} setIsVisible={setLoadForm}/> */}
     </div>
   );
 }
