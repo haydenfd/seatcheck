@@ -1,25 +1,28 @@
 import React from 'react'
 
+import { CustomTextInput } from '../ui/CustomTextInput'
+
 export const Step1 = ({formData, setFormData}) => {
   return (
     <div className='text-black w-full'>
-        <input 
-            type="text" 
-            value={formData.name}         
-            onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
-            placeholder='Enter your name'
+        <CustomTextInput 
+            inputValue={formData.name}         
+            setInputValue={(val) => setFormData((f) => ({ ...f, name: val }))}
+            placeholderText='Joseph Bruin'
+            labelText="What's your name?"
         />
-        <input 
-            type="text" 
-            value={formData.email}         
-            onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
-            placeholder='Enter your email address'
+        <CustomTextInput 
+            inputValue={formData.email}         
+            setInputValue={(val) => setFormData((f) => ({ ...f, email: val }))}
+            placeholderText='jbruin@ucla.edu'
+            labelText="What's your email address?"
         />
-        <input 
-            type="text" 
-            value={formData.confirmationEmail}         
-            onChange={(e) => setFormData((f) => ({ ...f, confirmationEmail: e.target.value }))}
-            placeholder='Confirm your email address'
+        <CustomTextInput 
+            inputValue={formData.confirmationEmail}         
+            setInputValue={(val) => setFormData((f) => ({ ...f, confirmationEmail: val}))}
+            placeholderText='jbruin@ucla.edu'
+            labelText="Confirm your email address"
+
         />                
     </div>
   )

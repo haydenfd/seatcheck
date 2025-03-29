@@ -8,7 +8,6 @@ import { MultiStepForm } from "./components/multistepform/MultiStepForm";
 import { CustomButton } from "./components/ui/CustomButton";
 import { Header } from "./components/ui/header";
 import { Loader } from "./components/ui/loader";
-import { StyledButton } from "./components/ui/styled-button";
 import { useLoadingContext } from "./context/loadingcontext";
 import { useStepContext } from "./context/stepcontext";
 
@@ -35,12 +34,6 @@ function App() {
         />
       )}
       <Header />
-      {/* <div className="mt-4 pt-2 mx-auto w-full text-center">
-        <h1 className="text-4xl font-extrabold font-open uppercase leading-relaxed">Seatcheck @ UCLA</h1>
-        <h2 className="text-2xl underline font-semibold font-open ">
-          Get notified when a class space opens
-        </h2>
-      </div> */}
       <Guide />
       <div className="w-full mx-auto text-center my-10">
         {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { StyledButton } from '../ui/styled-button'
+// import { StyledButton } from '../ui/styled-button'
 export const NotFound = () => {
   return (
     <div className="App min-h-screen overflow-auto">
@@ -15,7 +15,7 @@ export const NotFound = () => {
         <div className='w-full text-center mt-20'>
             <h1 className='text-4xl font-bold uppercase'>404! Page not found!</h1>
             <Link to="/">
-                <StyledButton text="Take me back home" classes="mt-10"/> 
+                {/* <StyledButton text="Take me back home" classes="mt-10"/>  */}
             </Link>
         </div>
   </div>
