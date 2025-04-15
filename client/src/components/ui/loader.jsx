@@ -1,12 +1,11 @@
-import React from "react";
-
-import PropagateLoader from "react-spinners/PropagateLoader";
+import ReactDOM from "react-dom"
+import PropagateLoader from "react-spinners/PropagateLoader"
 
 export const Loader = ({ text, loading }) => {
   if (!loading) return null;
 
-  return (
-    <div className="absolute w-screen h-screen z-50 bg-black opacity-65 flex items-center justify-center">
+  return ReactDOM.createPortal(
+    <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black opacity-65 flex items-center justify-center">
       <div className="text-center relative bottom-10 w-3/5">
         <PropagateLoader
           color="white"
@@ -19,11 +18,7 @@ export const Loader = ({ text, loading }) => {
           {text}
         </p>
       </div>
-    </div>
-  );
-};
-
-Loader.defaultProps = {
-  text: "",
-  size: 60,
-};
+    </div>,
+    document.body
+  )
+}

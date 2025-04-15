@@ -57,8 +57,6 @@ export const Step1 = () => {
   const [courseData,setCourseData] = useState([]);
   const [lectureOptions, setLectureOptions] = useState([]);
 
-  const nameRef = useRef(null);
-
   useEffect(() => {
     if (redux_form_step_1.term_cd.length > 0) {
       setCourseData(redux_form_step_1.course_options)
